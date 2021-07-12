@@ -3,8 +3,8 @@ const mysql = require('mysql');
 let connection = mysql.createConnection(config);
 
 module.exports = class UserService {
-    
-     static isUserAlreadyExist(user) {
+
+    static isUserAlreadyExist(user) {
         //créer la requete pour savoir si user existe
         let query = "select * from utilisateurs where adresse_mail = '"+user.email+"'";
         return new Promise((resolve, reject) => {
@@ -34,28 +34,31 @@ module.exports = class UserService {
     }
 
     static deleteUser(user) {
-    }
-
-    static updateUser(user) {
-    }
-
-    static getUser(user) {
-        // Trouver le user en BDD avec son adresse mail (récupérer toutes informations)
-        let query = "SELECT FROM utilisateurs WHERE adresse_mail= '"+user.email+"'" ;
+        let query = "DELETE * FROM utilisateurs WHERE adresse_mail= '"+user.email+"'";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
-                    reject("Probleme SQL (getUser)"); 
+                    reject("Probleme SQL (deleteUser)"); 
                 } else {
                     resolve(true);
                 };
-                
-                // Retourner toutes les informations du user
-                return user;
+            });
+        }); 
+    };
+
+    static getUser(email) {
+        // Trouver le user en BDD avec son adresse mail (récupérer toutes informations)
+        let query = "SELECT * FROM utilisateurs WHERE adresse_mail= '"+email+"'" ;
+        return new Promise((resolve, reject) => {
+            connection.query(query, (err, result) => {
+                if (err) {
+                    reject("Probleme SQL (getUser)");
+                } else if (result.length == 0){
+                    resolve(null); 
+                } else {
+                    resolve({... result[0]}); 
+                }
             });
         });
-        
-
-    }
-
-}
+    };
+};

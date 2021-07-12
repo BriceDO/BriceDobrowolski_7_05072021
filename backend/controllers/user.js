@@ -17,10 +17,8 @@ exports.signup = (req, res, next) => {
                 email: req.body.email,
                 password: hash
             };
-            console.log("Voici le user à créer");
-            console.log(user);
             // Enregistre l'utilisateur dans la base de donnée
-            //Faut vérifier si il existe avant
+            // Vérifier si il existe déjà
             UserService.isUserAlreadyExist(user)
             .then((isExist) => {
                 if (!isExist) {
@@ -37,5 +35,31 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    // Trouver l'utilisateur dans la base de donnée grâce à l'email
+    UserService.getUser(req.body.email).then(user => {
 
-}
+            if(user == null) {
+                return res.status(401).json({ error: 'Compte utilisateur non trouvé !' });
+            }
+
+            // bcrypt va comparer le mot de passe avec le hash de la base de donnée
+            bcrypt.compare(req.body.password, user.mot_de_passe).then(valid => {
+                    if (!valid) {
+                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
+                    }
+                /* Si on a bien trouvé le mot de passe, on renvoie un status 200 et un objet json
+                qui contient un userID et un Token d'authentification grâce à jsonwebtoken */
+                res.status(200).json({
+                    ... user,
+                    token: jwt.sign(
+                        { userId: user.id },
+                        process.env.TOKEN,
+                        { expiresIn : '24h' }
+                    )
+                });
+            })
+            .catch(error => res.status(500).json({ "message" : error.message }));
+        })
+        // Uniquement si il y a un problème de connexion / base de donnée
+        .catch(error => res.status(500).json({ "message" : error.message }));
+};
