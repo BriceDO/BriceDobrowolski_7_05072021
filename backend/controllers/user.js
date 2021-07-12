@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const UserService = require('../service/userService');
 
 exports.signup = (req, res, next) => {
-    console.log("jkhfdfd");
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     if (!regex.test(req.body.password)) {
         res.status(400).json("Le mot de passe doit comporter au moins 6 caractères dont au moins un chiffre")
@@ -36,3 +35,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ "message erreur" : error.message }));
     } 
 };
+
+exports.login = (req, res, next) => {
+
+}

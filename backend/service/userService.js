@@ -19,18 +19,17 @@ module.exports = class UserService {
     }
 
     static createUser(user) {
-        let query = "INSERT INTO utilisateurs (nom, prenom, adresse_mail, mot_de_passe) VALUES ('"+user.nom+"', '"+user.prenom+"', '"+user.email+"', '"+user.password+"')fgfg";
+        // Création de l'utilisateur dans la BDD
+        let query = "INSERT INTO utilisateurs (nom, prenom, adresse_mail, mot_de_passe) VALUES ('"+user.nom+"', '"+user.prenom+"', '"+user.email+"', '"+user.password+"')";
         console.log(query);
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
-                console.log(err);
                 if (err) {
-                    reject("Probleme sql"); 
+                    reject("Probleme SQL (createUser)"); 
                 } else {
                     resolve(true);
-                }
-                
-            })
+                };
+            });
         });
     }
 
@@ -41,11 +40,22 @@ module.exports = class UserService {
     }
 
     static getUser(user) {
-
-        //trouver le user en BDD avec son adresse mail ( récupérer toutes informations)
+        // Trouver le user en BDD avec son adresse mail (récupérer toutes informations)
+        let query = "SELECT FROM utilisateurs WHERE adresse_mail= '"+user.email+"'" ;
+        return new Promise((resolve, reject) => {
+            connection.query(query, (err, result) => {
+                if (err) {
+                    reject("Probleme SQL (getUser)"); 
+                } else {
+                    resolve(true);
+                };
+                
+                // Retourner toutes les informations du user
+                return user;
+            });
+        });
         
-        //retourner toutes les informations
-        return user;
+
     }
 
 }
