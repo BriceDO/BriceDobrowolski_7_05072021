@@ -26,21 +26,3 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
-
-/*
-const user = {
-    nom : "toto",
-    mail : "fdsfdfsdfdsfdsfd"
-}
-
- UserService.isUserAlreadyExist(user)
- .then( isExist => {
-    if (isExist) {
-        console.log("Le user " + user.nom + " existe dans la BDD");
-    } else {
-        console.log("Le user " + user.nom + " n'existe pas dans la BDD");
-    }
-});
-*/
-
-module.exports = app;
