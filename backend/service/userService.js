@@ -6,7 +6,7 @@ module.exports = class UserService {
 
     static isUserAlreadyExist(user) {
         // Créer la requete pour savoir si l'utilisateur existe
-        let query = "select * from utilisateurs where adresse_mail = '"+user.email+"'";
+        let query = "SELECT * FROM utilisateurs where adresse_mail = '"+user.email+"'";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 // Si l'utilisateur n'existe pas, c'est bon on peut le créer
@@ -22,7 +22,6 @@ module.exports = class UserService {
     static createUser(user) {
         // Création de l'utilisateur dans la BDD
         let query = "INSERT INTO utilisateurs (nom, prenom, adresse_mail, mot_de_passe) VALUES ('"+user.nom+"', '"+user.prenom+"', '"+user.email+"', '"+user.password+"')";
-        console.log(query);
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
@@ -36,7 +35,7 @@ module.exports = class UserService {
 
     static getUser(email) {
         // Trouver l'utilisateur' en BDD avec son adresse mail
-        let query = "SELECT * FROM utilisateurs WHERE adresse_mail= '"+email+"'" ;
+        let query = "SELECT * FROM utilisateurs WHERE adresse_mail= '"+email+"'";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
