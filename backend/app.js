@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const userRoutes = require('./routes/user');
+const articlesRoute = require('./routes/article');
 
 const app = express();
 app.use(helmet());
@@ -24,5 +25,6 @@ app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/auth', userRoutes);
+app.use('/api/auth', articlesRoute);
 
 module.exports = app;
