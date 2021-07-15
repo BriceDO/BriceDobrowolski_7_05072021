@@ -12,6 +12,23 @@ exports.createArticle = (req, res, next) => {
     };
 
     ArticleService.createArticle(article)
-    .then(res.status(201).json ({ message: 'Article créé !' }) )
-    .catch(res.status(400).json({ message: 'Problème pour créer un article'}))
+    .then(() => {
+         return res.status(201).json({ "message": 'Article créé !' });
+    })
+    .catch((errMessage) => {
+         return res.status(400).json({ "message": errMessage });
+    });
+};
+
+exports.getOneArticle = (req, res, next) => {
+    
+    ArticleService.getOneArticle(req.params.id).then(article => {
+        if (article == null) {
+        return res.status(404).json({ "message": "Article introuvable" })
+        }
+        return res.status(201).json({ article })
+    })
+    .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+   });
 };

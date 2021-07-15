@@ -65,5 +65,5 @@ exports.login = (req, res, next) => {
             .catch(error => res.status(500).json({ "message" : "ici" }));
         })
         // Uniquement si il y a un problème de connexion / base de donnée
-        .catch(error => res.status(500).json({ "message" : "la" }));
+        .catch(error => res.status(500).json({ "message" : "Problème de connection" }));
 };
