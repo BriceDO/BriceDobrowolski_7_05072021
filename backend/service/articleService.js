@@ -6,7 +6,7 @@ module.exports = class ArticleService {
 
     static createArticle(article) {
         // Pour créer un article
-        let query = "INSERT INTO jhkes (date_creation, article_contenu, article_image, id_utilisateur) VALUES ('"+article.date_creation+"', '"+article.article_contenu.replace("'","''")+"', '"+article.article_image+"', "+article.id_utilisateur+")";
+        let query = "INSERT INTO articles (date_creation, article_contenu, article_image, id_utilisateur) VALUES ('"+article.date_creation+"', '"+article.article_contenu.replace("'","''")+"', '"+article.article_image+"', "+article.id_utilisateur+")";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
@@ -42,7 +42,7 @@ module.exports = class ArticleService {
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
-                    reject("Probleme SQL (getUser)");
+                    reject("Probleme SQL (getAllArticles)");
                     // Sinon si le tableau est vide (il n'a pas de longueur), on envoie null
                 } else if (result.length == 0){
                     resolve(null); 
@@ -54,15 +54,37 @@ module.exports = class ArticleService {
         });
     }
 
-    static modifyArticle(id){
-        // Pour modifier son propre article. Le contenu texte et l'image uniquement.
-        let query = "UPDATE articles SET article_contenu = '"+article.article_contenu.replace("'","''")+"', article_image = '"+article.article_image+"' "; 
-
+    static modifyArticle(id, article){
+        return new Promise((resolve, reject) => {
+            this.getOneArticle(id)
+            .then(articleOriginal => {
+                if (articleOriginal == null) {
+                    reject("existe pas")
+                } else {
+                    let query = "UPDATE articles SET article_contenu = '"+article.article_contenu.replace("'","''")+"', article_image = '"+article.article_image+"' WHERE id = "+id+" "; 
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            reject("Probleme SQL (modifyArticle)");
+                        } else {
+                            resolve(true);
+                        } 
+                    });
+                }
+            })
+        })
     }
 
     static deleteArticle(id){
         // Pour supprimer son propre article, avec les commentaires associés
-        
-    }
-
-}
+        let query = "DELETE FROM articles WHERE id = "+id+" ";
+        return new Promise((resolve, reject) => {
+            connection.query(query, (err, result) => {
+                if (err) {
+                    reject("Probleme SQL (deleteArticle)");
+                } else {
+                    resolve("Article supprimé");
+                }
+            });
+        });
+    }; 
+}; 

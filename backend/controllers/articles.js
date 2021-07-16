@@ -32,3 +32,38 @@ exports.getOneArticle = (req, res, next) => {
         return res.status(400).json({ "message": errMessage });
    });
 };
+
+exports.getAllArticles = (req, res, next) => {
+
+    ArticleService.getAllArticles().then(allArticles =>{
+        if (allArticles == null) {
+            return res.status(404).json({ "message": "Articles introuvables" })
+        }
+        return res.status(201).json({ allArticles })
+    })
+    .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+   });
+}
+
+exports.modifyArticle = (req, res, next) => {
+
+    ArticleService.modifyArticle(req.params.id, req.body)
+    .then(() => {
+        return res.status(201).json({ "message" : "article modifié !" })
+    }) 
+    .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+   });
+};
+
+exports.deleteArticle = (req, res, next) => {
+
+    ArticleService.deleteArticle(req.params.id)
+    .then(() => {
+        return res.status(201).json({ "message": 'Article supprimé !' });
+   })
+   .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+   });
+};

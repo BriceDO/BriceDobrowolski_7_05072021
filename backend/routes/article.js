@@ -12,12 +12,12 @@ router.post('/', multer, articleCtrl.createArticle);
 router.get('/:id', multer, articleCtrl.getOneArticle);
 
 // Récupèrer tous les articles
-// router.get('/', multer, articleCtrl.getAllArticles);
+router.get('/', multer, articleCtrl.getAllArticles);
 
 // Modifier un article
-// router.post('/:id', multer, articleCtrl.modifyArticle);
+router.put('/:id', multer, articleCtrl.modifyArticle);
 
 // Supprimer un article
-// router.delete('/:id', multer, articleCtrl.deleteArticle)
+router.delete('/:id', multer, articleCtrl.deleteArticle)
 
 module.exports = router;
