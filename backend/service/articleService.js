@@ -55,12 +55,17 @@ module.exports = class ArticleService {
     }
 
     static modifyArticle(id, article){
+        // Pour modifier un article
+        // D'abord une nouvelle promesse
         return new Promise((resolve, reject) => {
+            // On va rechercher l'article avec getOneArticle
             this.getOneArticle(id)
             .then(articleOriginal => {
+                // Si l'article n'existe pas : erreur
                 if (articleOriginal == null) {
-                    reject("existe pas")
+                    reject("Article introuvable")
                 } else {
+                    // Si il existe, on lance la requête SQL de l'update
                     let query = "UPDATE articles SET article_contenu = '"+article.article_contenu.replace("'","''")+"', article_image = '"+article.article_image+"' WHERE id = "+id+" "; 
                     connection.query(query, (err, result) => {
                         if (err) {
@@ -69,10 +74,10 @@ module.exports = class ArticleService {
                             resolve(true);
                         } 
                     });
-                }
-            })
-        })
-    }
+                };
+            });
+        });
+    };
 
     static deleteArticle(id){
         // Pour supprimer son propre article, avec les commentaires associés
