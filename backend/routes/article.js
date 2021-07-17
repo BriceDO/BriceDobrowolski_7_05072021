@@ -20,4 +20,12 @@ router.put('/:id', multer, articleCtrl.modifyArticle);
 // Supprimer un article
 router.delete('/:id', multer, articleCtrl.deleteArticle)
 
+// ROUTES COMMENTAIRES
+
+//créer un commentaire pour l'article :id
+router.post('/:id/comments', multer, articleCtrl.createComment);
+
+// // Récupèrer tous les commentaires
+router.get('/:id/comments', multer, articleCtrl.getAllComments);
+
 module.exports = router;

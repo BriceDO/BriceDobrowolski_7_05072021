@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { exception } = require('console');
 const ArticleService = require ('../service/articleService')
+const CommentService = require ('../service/commentService')
 
 exports.createArticle = (req, res, next) => {
 
@@ -67,3 +68,57 @@ exports.deleteArticle = (req, res, next) => {
         return res.status(400).json({ "message": errMessage });
    });
 };
+
+// COMMENTAIRES
+
+exports.createComment = (req, res, next) => {
+
+    const commentaire = {
+        commentaire_contenu : req.body.commentaire_contenu,
+        commentaire_image : req.body.commentaire_image,
+        id_article : req.params.id,
+        id_utilisateur : req.body.id_utilisateur
+    }
+
+    CommentService.createComment(commentaire)
+    .then(() => {
+        return res.status(201).json({ "message": 'Commentaire créé !' });
+    })
+    .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+    });
+}
+
+exports.getAllComments = (req, res, next) => {
+
+    CommentService.getAllComments(req.params.id)
+    .then(commentaires =>{
+        if (commentaires == null) {
+            return res.status(404).json({ "message": "Commentaires introuvables" })
+        }
+        return res.status(201).json({ commentaires })
+    })
+    .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+   });
+}
+
+exports.modifyComment = (req, res, next) => {
+    CommentService.modifyComment(req.params.id, req.body)
+    .then(() => {
+        return res.status(201).json({ "message" : "Commentaire modifié !" })
+    }) 
+    .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+   });
+}
+
+exports.deleteComment = (req, res, next) => {
+    CommentService.deleteComment(req.params.id)
+    .then(() => {
+        return res.status(201).json({ "message": 'Commentaire supprimé !' });
+    })
+    .catch((errMessage) => {
+        return res.status(400).json({ "message": errMessage });
+    });
+}
