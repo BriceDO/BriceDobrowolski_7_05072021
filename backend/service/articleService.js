@@ -6,7 +6,7 @@ module.exports = class ArticleService {
 
     static createArticle(article) {
         // Pour créer un article
-        let query = "INSERT INTO articles (date_creation, article_contenu, article_image, id_utilisateur) VALUES ('"+article.date_creation+"', '"+article.article_contenu.replace("'","''")+"', '"+article.article_image+"', "+article.id_utilisateur+")";
+        let query = "INSERT INTO articles (date_creation, article_contenu, article_image, id_utilisateur) VALUES (now(), '"+article.article_contenu.replace("'","''")+"', '"+article.article_image+"', "+article.id_utilisateur+")";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
@@ -47,8 +47,12 @@ module.exports = class ArticleService {
                 } else if (result.length == 0){
                     resolve(null); 
                 } else {
+                    
+                    let test = [...result];
+                    //console.log(test);
+                    
                     // On récupère tous les articles et leurs infos
-                    resolve({... result}); 
+                    resolve([...result]); 
                 }
             });
         });

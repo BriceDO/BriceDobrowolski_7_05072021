@@ -25,7 +25,7 @@ router.delete('/:id', multer, articleCtrl.deleteArticle)
 //créer un commentaire pour l'article :id
 router.post('/:id/comments', multer, articleCtrl.createComment);
 
-// // Récupèrer tous les commentaires
+// Récupèrer tous les commentaires
 router.get('/:id/comments', multer, articleCtrl.getAllComments);
 
 module.exports = router;

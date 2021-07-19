@@ -1,29 +1,23 @@
 <template>
-  <div class="vue-tempalte">
-    <!-- Navigation -->
-    <nav class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top">
-      <div class="container">
-        <a class="navbar-brand float-left" href="#" target="_blank">
-           Groupomania
-        </a>
-        <ul class="nav navbar-nav flex-row float-right">
-          <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/">Se connecter</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="btn btn-outline-primary ms-2" to="/signup">S'inscrire</router-link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Main -->
     <div class="App">
       <div class="vertical-center">
         <div class="inner-block">
-          <router-view />
+          <header-top></header-top>
+          <router-view></router-view>
         </div>
       </div>
     </div>
-  </div>
 </template>
+
+
+<script>
+
+import Header from './components/Header.vue'
+
+export default {
+  name:'App',
+  components: {
+    'header-top': Header,
+  }
+}
+</script>

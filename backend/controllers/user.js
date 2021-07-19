@@ -15,19 +15,20 @@ exports.signup = (req, res, next) => {
                 nom: req.body.nom,
                 prenom: req.body.prenom,
                 email: req.body.email,
-                password: hash
+                password: hash,
+                photo: req.body.photo
             };
             
             // Vérifier si l'utilisateur existe déjà
             UserService.isUserAlreadyExist(user).then((isExist) => {
             // Le then ici renvoie à la promesse de la classe UserService.isUserAlreadyExist et le isExist fait référence à result
 
-                if (!isExist) {
+                if (!isExist && req.body.email != undefined) {
                     // Enregistrer l'utilisateur dans la base de donnée
                     UserService.createUser(user)
                     .then(res.status(201).json({ message: 'Utilisateur créé !' }))
                 } else {
-                    res.status(400).json({ "message erreur" : "Il existe déjà en BDD" })
+                    res.status(400).json({ "message erreur" : "L'email a déjà été utilisé ou sa validation n'a pas été autorisée. Création du compte impossible." })
                 }
             });
 
@@ -62,8 +63,8 @@ exports.login = (req, res, next) => {
                     )
                 });
             })
-            .catch(error => res.status(500).json({ "message" : "ici" }));
+            .catch(error => res.status(500).json({ errMessage }));
         })
         // Uniquement si il y a un problème de connexion / base de donnée
-        .catch(error => res.status(500).json({ "message" : "Problème de connection" }));
+        .catch(error => res.status(500).json({ "message" : "Problème de connexion" }));
 };

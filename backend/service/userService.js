@@ -21,7 +21,7 @@ module.exports = class UserService {
 
     static createUser(user) {
         // Création de l'utilisateur dans la BDD
-        let query = "INSERT INTO utilisateurs (nom, prenom, adresse_mail, mot_de_passe) VALUES ('"+user.nom+"', '"+user.prenom+"', '"+user.email+"', '"+user.password+"')";
+        let query = "INSERT INTO utilisateurs (nom, prenom, adresse_mail, mot_de_passe, photo) VALUES ('"+user.nom+"', '"+user.prenom+"', '"+user.email+"', '"+user.password+"', '"+user.photo+"')";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {

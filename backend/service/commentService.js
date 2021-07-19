@@ -30,7 +30,7 @@ module.exports = class CommentService {
                     resolve(null); 
                 } else {
                     // On récupère tous les commentaires
-                    resolve({... result}); 
+                    resolve([... result]); 
                 }
             });
         });

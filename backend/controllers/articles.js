@@ -3,6 +3,8 @@ const { exception } = require('console');
 const ArticleService = require ('../service/articleService')
 const CommentService = require ('../service/commentService')
 
+// ARTICLES
+
 exports.createArticle = (req, res, next) => {
 
     const article = {
