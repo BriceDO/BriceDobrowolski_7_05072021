@@ -6,7 +6,7 @@ module.exports = class ArticleService {
 
     static createArticle(article) {
         // Pour créer un article
-        let query = "INSERT INTO articles (date_creation, article_contenu, article_image, id_utilisateur) VALUES (now(), '"+article.article_contenu.replace("'","''")+"', '"+article.article_image+"', "+article.id_utilisateur+")";
+        let query = "INSERT INTO articles (date_creation, titre, article_contenu, article_image, id_utilisateur) VALUES (NOW(), '"+article.titre.replace("'","''")+"', '"+article.article_contenu.replace("'","''")+"',  '"+article.article_image+"', "+article.id_utilisateur+")";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
@@ -38,19 +38,18 @@ module.exports = class ArticleService {
 
     static getAllArticles(){
         // Pour recevoir tous les articles de tout le monde par ordre chronologique (du plus récent au plus vieux)
-        let query = "SELECT * FROM articles ORDER BY date_creation DESC";
+        let query = "SELECT a.*, count(c.id) as nbCommentaire " ;
+            query += "FROM articles as a LEFT JOIN commentaires as c on (a.id = c.id_article) " ;
+            query +=  "GROUP BY a.id " ;
+            query +=  "ORDER BY a.date_creation DESC;";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
-                    reject("Probleme SQL (getAllArticles)");
+                    reject(err);
                     // Sinon si le tableau est vide (il n'a pas de longueur), on envoie null
                 } else if (result.length == 0){
                     resolve(null); 
-                } else {
-                    
-                    let test = [...result];
-                    //console.log(test);
-                    
+                } else {    
                     // On récupère tous les articles et leurs infos
                     resolve([...result]); 
                 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top">
+    <nav class="navbar shadow bg-white rounded">
       <div class="container">
         <a class="navbar-brand float-left" href="#" target="_blank">
            Groupomania
