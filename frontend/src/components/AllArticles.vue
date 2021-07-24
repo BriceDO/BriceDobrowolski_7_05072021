@@ -23,7 +23,7 @@
                                         </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Écrit le {{ article.date_creation | filterFormatDate }}</div>
+                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Le {{ article.date_creation | filterFormatDate }}</div>
                                     <a class="card-link" href="#">
                                         <h5 class="card-title">{{ article.titre }}</h5>
                                     </a>
@@ -54,25 +54,32 @@ export default {
     components: { 
         CreateArticle,
         Footer
-        },
-
+        }, 
     name:'AllArticles',
     data() {
         return {
-            allArticles: []
+            allArticles: [],
         }
     },
     created(){
+        
         axios
-        .get('http://localhost:3000/api/articles')
+        .get('http://localhost:3000/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then(reponse => {
             this.allArticles = reponse.data.allArticles
+        })
+        .catch((error) => {
+            console.log(error.message);
         })
     },
     filters : {
         filterFormatDate : function (date) {
             let newDate = new Date(date);
-            return newDate.getDate() + "/" + newDate.getMonth() + "/" + newDate.getFullYear();
+            let hours = ('0'+newDate.getHours()).slice(-2);
+            let mins = ('0'+newDate.getMinutes()).slice(-2);
+            let month = ('0'+newDate.getMonth()).slice(-2);
+            let day = ('0'+newDate.getDate()).slice(-2);
+            return day + "/" + month + "/" + newDate.getFullYear() + " à " + hours + "h" + mins;
         }
     }
 }

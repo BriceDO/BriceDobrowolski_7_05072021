@@ -6,13 +6,13 @@
 
             <div class="form-group col-md">
                 <label>Adresse email</label>
-                <input v-model="user.email" type="email" class="form-control form-control-lg" pattern="\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b" aria-describedby="aideEmail"
+                <input v-model="user.email" type="email" class="form-control form-control-lg" aria-describedby="aideEmail"
                  title="Entrez votre addresse email" required/>
             </div>
 
             <div class="form-group col-md">
                 <label>Mot de passe</label>
-                <input v-model="user.password" pattern="\D*\d)\S{6,}$" type="password" class="form-control form-control-lg" name="mot de passe"
+                <input v-model="user.password" type="password" class="form-control form-control-lg" name="mot de passe"
                 title="Entrez votre mot de passe" required/>
                 <small v-if="errorLogin" class="form-text text-danger">L'email ou le mot de passe est incorrect.</small>
                 <small v-if="successLogin" class="form-text text-success">Utilisateur connecté.</small>
@@ -32,13 +32,14 @@
 <script>
     import axios from 'axios'
 
+
     export default {
         name :'Login',
         data() {
             return {
                 user:{
                     email:'',
-                    password:''
+                    password:'',
                 },
                 errorLogin: false,
                 successLogin: false
@@ -46,10 +47,13 @@
         },
         methods: {
             sendForm(){
-                axios.post('http://localhost:3000/api/user/login', this.user)
-                .then(() => {
+                axios.post('http://localhost:3000/api/auth/login', this.user)
+                .then((res) => {
+                    localStorage.setItem('token', res.data.token)
                     this.successLogin = true
                     this.errorLogin = false
+                    
+                    this.$router.push('articles');
                 })
                 .catch((error) =>{
                     console.log(error.message);
@@ -59,6 +63,7 @@
             }
         }
     }
+
 </script>
 
 <style scoped>

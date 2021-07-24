@@ -8,6 +8,13 @@ export default [
     name: 'login',
     component: Login
   },
+
+  {
+    path: '/auth',
+    name: 'login',
+    component: Login
+  },
+
   {
     path: '/signup',
     name: 'signup',
@@ -17,5 +24,13 @@ export default [
     path: '/articles',
     name: 'allArticles',
     component: AllArticles
+  },
+  /*
+  Faire une vue 404 - page non trouvé 
+  {
+    path: '/*',
+    name: 'allArticles',
+    component: AllArticles
   }
+  */
 ]

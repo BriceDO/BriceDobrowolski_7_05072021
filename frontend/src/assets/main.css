@@ -85,3 +85,8 @@
   .form-group{
       margin-top: 5px;
   }
+
+  .router-link{
+    text-decoration: none;
+    color: inherit;
+}

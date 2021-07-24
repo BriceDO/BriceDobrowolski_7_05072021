@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/api/user', userRoutes);
+app.use('/api/auth', userRoutes);
 app.use('/api/articles', articlesRoute);
 app.use('/api/comments', commentsRoute);
 
