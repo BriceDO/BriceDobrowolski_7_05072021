@@ -68,3 +68,13 @@ exports.login = (req, res, next) => {
         // Uniquement si il y a un problème de connexion / base de donnée
         .catch(error => res.status(500).json({ "message" : "Problème de connexion" }));
 };
+
+exports.info = (req, res, next) => {
+    UserService.getUserInfo(req.body.userId)
+    .then(user => {
+        res.status(201).json({ user })
+    })
+    .catch(err => {
+        res.status(500).json({ err })
+    })
+};

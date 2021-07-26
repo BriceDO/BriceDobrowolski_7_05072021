@@ -6,7 +6,7 @@
                     <div class="form-group">
                         <div>
                             <img class="rounded-circle mb-2 me-2" width="60" src="https://picsum.photos/50/50" alt="">
-                            <span>Bonjour (prenom) ! Quoi de neuf ?</span> 
+                            <span>Bonjour <b> {{nom}} </b>! Quoi de neuf ?</span> 
                         </div>
                         <input v-model="article.titre" type="text" class="form-control mb-2" id="message" maxlength="45" rows="1" placeholder="Le titre de votre publication">
                         <textarea v-model="article.article_contenu" class="form-control" id="message" rows="3" placeholder="Le contenu de votre publication"></textarea>
@@ -36,14 +36,15 @@ export default {
                 titre:'',
                 article_contenu: '',
                 article_image:''
-            }
+            },
+            nom : localStorage.getItem('userPrenom')
         }
     },
     methods: {
         sendArticle() {
             axios.post('http://localhost:3000/api/articles', this.article)
             .then(() => {
-                console.log("L'article a été créé' !")
+                // console.log(JSON.parse(localStorage.getItem('loggedUserData'))); 
             })
             .catch((error) =>{
                 console.log(error.message);

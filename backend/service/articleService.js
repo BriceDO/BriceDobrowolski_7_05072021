@@ -37,12 +37,12 @@ module.exports = class ArticleService {
     };
 
     static getAllArticles(){
-        // Pour recevoir tous les articles de tout le monde par ordre chronologique (du plus récent au plus vieux)
-        let query =  "SELECT a.*, count(c.id) as nbCommentaire " ;
+        // Pour recevoir tous les articles de tout le monde par ordre chronologique
+        let query =  "SELECT a.*, u.nom, prenom, photo, count(c.id) as nbCommentaire " ;
             query += "FROM articles as a LEFT JOIN commentaires as c on (a.id = c.id_article) " ;
+            query += "LEFT JOIN utilisateurs as u ON u.id = a.id_utilisateur " ;
             query += "GROUP BY a.id " ;
             query += "ORDER BY a.date_creation DESC;";
-
         
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {

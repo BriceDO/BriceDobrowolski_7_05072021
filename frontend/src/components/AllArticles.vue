@@ -12,7 +12,7 @@
                                             <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
                                         </div>
                                         <div>
-                                            <div class="ms-3 text-muted">(nom, prenom)</div>
+                                            <div class="ms-3 text-muted">{{article.prenom}} {{article.nom}}</div>
                                         </div>
                                     </div>
                                         <div class="">
@@ -40,20 +40,17 @@
                 </div>
         </div>
 
-    <Footer></Footer>
-
     </div>
 </template>
 
 <script>
-import Footer from './Footer.vue'
+
 import CreateArticle from './CreateArticle.vue'
 import axios from 'axios'
 
 export default {
     components: { 
         CreateArticle,
-        Footer
         }, 
     name:'AllArticles',
     data() {
@@ -62,7 +59,6 @@ export default {
         }
     },
     created(){
-        
         axios
         .get('http://localhost:3000/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then(reponse => {
@@ -72,8 +68,8 @@ export default {
             console.log(error.message);
         })
     },
-    filters : {
-        filterFormatDate : function (date) {
+    filters: {
+        filterFormatDate: function (date) {
             let newDate = new Date(date);
             let hours = ('0'+newDate.getHours()).slice(-2);
             let mins = ('0'+newDate.getMinutes()).slice(-2);

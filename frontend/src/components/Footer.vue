@@ -10,7 +10,7 @@
 
 <script>
 export default {
-    name:'Footer-bottom',
+    name:'footer-bottom',
     data() {
         return {
 

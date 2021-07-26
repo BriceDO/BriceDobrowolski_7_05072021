@@ -21,7 +21,7 @@
 
                 <div class="form-group ">
                     <label>Mot de passe</label>
-                    <input v-model="user.password" pattern="^(?=\D*\d)\S{6,}$" type="password" name="Votre mot de passe" class="form-control" required/>
+                    <input v-model="user.password" type="password" name="Votre mot de passe" class="form-control" autocomplete="on" required/>
                     <small class="form-text text-muted">Au moins 6 caractères dont un chiffre.</small>
                 </div>
 
@@ -60,7 +60,6 @@
                 axios.post('http://localhost:3000/api/user/signup', this.user)
                 .then(() => {
                     console.log("Le compte a été créé !")
-                    localStorage.setItem('user', this.user)
                     console.log(this.user);
                 })
                 .catch((error) =>{

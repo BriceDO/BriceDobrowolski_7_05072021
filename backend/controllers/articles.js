@@ -38,7 +38,7 @@ exports.getOneArticle = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-
+    console.log(req.body.userId);
     ArticleService.getAllArticles().then(allArticles =>{
         if (allArticles == null) {
             return res.status(404).json({ "message": "Articles introuvables" })

@@ -50,4 +50,19 @@ module.exports = class UserService {
             });
         });
     };
+
+    static getUserInfo(userId) {
+        return new Promise((resolve, reject) => {
+            let query = "select id, nom, prenom, adresse_mail, photo from utilisateurs where id = "+userId;
+            connection.query(query, (err, result) => {
+                if (err) {
+                    reject("Probleme SQL (getUser)");
+                } else if(result.length == 0) {
+                    reject("User not found");
+                } else {
+                    resolve({... result[0]}); 
+                }
+            })
+        })
+    }
 };

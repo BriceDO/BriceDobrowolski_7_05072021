@@ -13,9 +13,8 @@
             <div class="form-group col-md">
                 <label>Mot de passe</label>
                 <input v-model="user.password" type="password" class="form-control form-control-lg" name="mot de passe"
-                title="Entrez votre mot de passe" required/>
+                title="Entrez votre mot de passe" autocomplete="on" required/>
                 <small v-if="errorLogin" class="form-text text-danger">L'email ou le mot de passe est incorrect.</small>
-                <small v-if="successLogin" class="form-text text-success">Utilisateur connecté.</small>
             </div>
 
             <button v-on:click.prevent="sendForm" type="submit" class="btn btn-dark btn-lg btn-block mt-3">Se connecter</button>
@@ -32,17 +31,15 @@
 <script>
     import axios from 'axios'
 
-
     export default {
         name :'Login',
         data() {
             return {
                 user:{
-                    email:'',
-                    password:'',
+                    email: '',
+                    password: '',
                 },
                 errorLogin: false,
-                successLogin: false
             }
         },
         methods: {
@@ -50,15 +47,14 @@
                 axios.post('http://localhost:3000/api/auth/login', this.user)
                 .then((res) => {
                     localStorage.setItem('token', res.data.token)
-                    this.successLogin = true
+                    localStorage.setItem('userPrenom', res.data.prenom)
                     this.errorLogin = false
-                    
                     this.$router.push('articles');
+                    this.windows.reload()
                 })
                 .catch((error) =>{
                     console.log(error.message);
                     this.errorLogin = true
-                    this.successLogin = false
                 })
             }
         }

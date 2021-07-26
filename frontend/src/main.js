@@ -19,6 +19,24 @@ const router = new VueRouter({
   mode: 'history'
 })
 
+// Empeche l'user non connecté d'accèder à la page allArticles
+router.beforeEach((to, from, next) => {
+   if(to.meta.requiresAuth){
+     // Vérifier si l'user est connecté ou pas
+     if(localStorage.getItem('token') == null) {
+       next({
+         name: 'login',
+       });
+     } else {
+       next();
+     }
+   } else {
+     next();
+   }
+ });
+
+export default router;
+
 new Vue({
   render: h => h(App),
   router: router,

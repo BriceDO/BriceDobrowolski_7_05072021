@@ -1,6 +1,7 @@
 import Login from './components/Login'
 import Signup from './components/Signup'
 import AllArticles from './components/AllArticles'
+import NotFound from './components/NotFound'
 
 export default [
   {
@@ -12,7 +13,7 @@ export default [
   {
     path: '/auth',
     name: 'login',
-    component: Login
+    component: Login,
   },
 
   {
@@ -23,14 +24,13 @@ export default [
   {
     path: '/articles',
     name: 'allArticles',
-    component: AllArticles
+    component: AllArticles,
+    meta: { requiresAuth: true }
   },
-  /*
-  Faire une vue 404 - page non trouvé 
   {
-    path: '/*',
-    name: 'allArticles',
-    component: AllArticles
+    path: '/404',
+    name: 'notFound',
+    component: NotFound
   }
-  */
+
 ]
