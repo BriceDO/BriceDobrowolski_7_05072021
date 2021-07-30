@@ -2,6 +2,7 @@ import Login from './components/Login'
 import Signup from './components/Signup'
 import AllArticles from './components/AllArticles'
 import NotFound from './components/NotFound'
+import OneArticle from './components/OneArticle'
 
 export default [
   {
@@ -25,6 +26,12 @@ export default [
     path: '/articles',
     name: 'allArticles',
     component: AllArticles,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/articles/id',
+    name: 'oneArticle',
+    component: OneArticle,
     meta: { requiresAuth: true }
   },
   {

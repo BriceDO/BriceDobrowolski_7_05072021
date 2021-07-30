@@ -2,7 +2,7 @@
     <div class="App">
       <div class="vertical-center">
         <div class="inner-block">
-          <header-top></header-top>
+          <header-top v-on="forceRerender()" :key="headerKey"></header-top>
           <router-view></router-view>
         </div>
       </div>
@@ -19,7 +19,7 @@ export default {
   name:'App',
   data() {
     return {
-      user: null
+      headerKey: 0
     }
   },
   components: {
@@ -27,7 +27,9 @@ export default {
     'footer-bottom': Footer
   },
   methods: {
-    
+    forceRerender() {
+      this.headerKey += 1;
+    }
   }
 }
 </script>

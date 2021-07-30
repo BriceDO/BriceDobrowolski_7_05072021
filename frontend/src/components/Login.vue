@@ -3,7 +3,6 @@
         <div class="container">
         <form>
             <h3 class="mt-5">Connexion</h3>
-
             <div class="form-group col-md">
                 <label>Adresse email</label>
                 <input v-model="user.email" type="email" class="form-control form-control-lg" aria-describedby="aideEmail"
@@ -22,7 +21,6 @@
                 Vous n'avez pas de compte ?
                 <router-link :to="{name: 'signup'}">Créez-en un</router-link>
             </p>
-
         </form>
         </div>
     </div>
@@ -48,9 +46,10 @@
                 .then((res) => {
                     localStorage.setItem('token', res.data.token)
                     localStorage.setItem('userPrenom', res.data.prenom)
-                    this.errorLogin = false
+                    localStorage.setItem('userNom', res.data.nom)
+                    localStorage.setItem('userPhoto', res.data.photo)
+                    localStorage.setItem('userId', res.data.id)
                     this.$router.push('articles');
-                    this.windows.reload()
                 })
                 .catch((error) =>{
                     console.log(error.message);

@@ -8,6 +8,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './assets/main.css'
 
+import VueDirectiveImagePreviewer from 'vue-directive-image-previewer'
+import 'vue-directive-image-previewer/dist/assets/style.css'
+Vue.use(VueDirectiveImagePreviewer)
+
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)

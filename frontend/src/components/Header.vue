@@ -39,7 +39,6 @@ export default {
           this.userPrenom = null;
           localStorage.removeItem('token');
           localStorage.removeItem('userPrenom');
-          localStorage.removeItem('loggedUserData');
           this.$router.push('/')
         }
     }

@@ -6,19 +6,19 @@
                     <div class="form-group">
                         <div>
                             <img class="rounded-circle mb-2 me-2" width="60" src="https://picsum.photos/50/50" alt="">
-                            <span>Bonjour <b> {{nom}} </b>! Quoi de neuf ?</span> 
+                            <span>Bonjour <b> {{userPrenom}} </b>! Quoi de neuf ?</span> 
                         </div>
                         <input v-model="article.titre" type="text" class="form-control mb-2" id="message" maxlength="45" rows="1" placeholder="Le titre de votre publication">
                         <textarea v-model="article.article_contenu" class="form-control" id="message" rows="3" placeholder="Le contenu de votre publication"></textarea>
                     </div>
             </div>
             <div class="btn-toolbar justify-content-between">
-                    <form>
+                    <form >
                         <div class="form-group">
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                            <input type="file" @change="onSelect" class="form-control-file" id="exampleFormControlFile1">
                         </div>
                     </form>
-                        <button v-on:click.prevent="sendArticle" type="submit" class="btn btn-primary me-2 mt-2">Partager</button>
+                        <button v-on:click="onUpload" v-on:click.prevent="sendArticle" class="btn btn-primary me-2 mt-2">Partager</button>
             </div>
         </div>
     </div>
@@ -33,22 +33,42 @@ export default {
     data() {
         return {
             article:{
-                titre:'',
-                article_contenu: '',
-                article_image:''
+                titre: null,
+                article_contenu: null,
+                article_image: null,
+                id_utilisateur: localStorage.getItem('userId')
             },
-            nom : localStorage.getItem('userPrenom')
+            userPrenom: localStorage.getItem('userPrenom'),
+            userNom: localStorage.getItem('userNom'),
+            userPhoto: localStorage.getItem('userPhoto'),
+            userId: localStorage.getItem('userId')
         }
     },
     methods: {
         sendArticle() {
-            axios.post('http://localhost:3000/api/articles', this.article)
+            axios.post('http://localhost:3000/api/articles',
+            this.article,
+            {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
-                // console.log(JSON.parse(localStorage.getItem('loggedUserData'))); 
+                console.log('article créé');
+                this.$emit('articleCree');
+                this.clearData();
             })
-            .catch((error) =>{
+            .catch((error) => {
                 console.log(error.message);
             })
+        },
+        clearData() {
+            this.article.titre = null;
+            this.article.article_contenu = null;
+            this.article.article_image = null;
+        },
+        onSelect(event) {
+            this.article_image = event.target.files[0];
+            console.log(this.article_image);
+        },
+        onUpload() {
+            
         }
     }
 }
