@@ -12,7 +12,7 @@
                                             <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
                                         </div>
                                         <div>
-                                            <div class="ms-3 text-muted">{{article.prenom}} {{article.nom}}</div>
+                                            <div class="ms-2 text-muted">{{article.prenom}} {{article.nom}}</div>
                                         </div>
                                     </div>
                                         <div class="">
@@ -23,22 +23,20 @@
                                         </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> Le {{ article.date_creation | filterFormatDate }}</div>
-                                    <a class="card-link" href="#">
-                                        <h5 v-on:click="goToOneArticle" class="card-title">{{ article.titre }}</h5>
+                                    <div class="text-muted mb-2"> <i class="fa fa-clock-o"></i> Le {{ article.date_creation | filterFormatDate }}</div>
+                                    <a class="card-link"  >
+                                        <h5 v-on:click="goToOneArticle(article.id)" class="card-title">{{ article.titre }}</h5>
                                     </a>
                                     <p class="card-text">{{ article.article_contenu }}</p>
 
                                     <div>
                                         <img src="https://picsum.photos/50/50" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
                                     </div>
-
-                                    
                                 </div>
                                 <div class="card-footer">
                                     <i class="fa fa-comment "></i>
-                                    <a v-if="article.nbCommentaire < 2" href="#" class="card-link ms-2">{{ article.nbCommentaire }} commentaire </a>
-                                    <a v-else href="#" class="card-link ms-2">{{ article.nbCommentaire }} commentaires </a>
+                                    <a v-if="article.nbCommentaire < 2" class="card-link ms-2">{{ article.nbCommentaire }} commentaire </a>
+                                    <a v-else class="card-link ms-2">{{ article.nbCommentaire }} commentaires </a>
                                 </div>
                             </div>
                         </div>     
@@ -79,8 +77,8 @@ export default {
         }
     },
     methods: {
-        goToOneArticle: function () {
-            this.$router.push('articles/id');
+        goToOneArticle: function(articleId) {
+            this.$router.push({name:'oneArticle', params:{id:articleId}});
         },
         loadArticles: function() {
             axios.get('http://localhost:3000/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
@@ -98,8 +96,5 @@ export default {
 
 <style scoped>
 
-@media screen {
-    
-}
 
 </style>

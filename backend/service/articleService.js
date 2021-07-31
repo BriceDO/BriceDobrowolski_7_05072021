@@ -20,7 +20,10 @@ module.exports = class ArticleService {
 
     static getOneArticle(id){
         // Pour recevoir un seul article, celui sélectionné
-        let query = "SELECT * FROM articles WHERE id = "+id+" ";
+        let query =  "SELECT a.*, u.nom, prenom, photo, count(c.id) as nbCommentaire " ;
+            query += "FROM articles as a LEFT JOIN commentaires as c on (a.id = c.id_article) " ;
+            query += "LEFT JOIN utilisateurs as u ON u.id = a.id_utilisateur " ;
+            query += "WHERE a.id = "+id+" ";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {

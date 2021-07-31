@@ -29,7 +29,7 @@ export default [
     meta: { requiresAuth: true }
   },
   {
-    path: '/articles/id',
+    path: '/articles/:id',
     name: 'oneArticle',
     component: OneArticle,
     meta: { requiresAuth: true }

@@ -11,13 +11,13 @@ exports.createArticle = (req, res, next) => {
         date_creation : req.body.date_creation,
         titre : req.body.titre,
         article_contenu : req.body.article_contenu,
-        article_image : req.body.article_image,
+        article_image : req.file.filename,
         id_utilisateur : req.body.id_utilisateur
     };
 
     ArticleService.createArticle(article)
     .then(() => {
-         return res.status(201).json({ "message": 'Article créé !' });
+        return res.status(201).json({ "message": 'Article créé !' });
     })
     .catch((errMessage) => {
          return res.status(400).json({ "message": errMessage });
@@ -38,7 +38,6 @@ exports.getOneArticle = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-    console.log(req.body.userId);
     ArticleService.getAllArticles().then(allArticles =>{
         if (allArticles == null) {
             return res.status(404).json({ "message": "Articles introuvables" })

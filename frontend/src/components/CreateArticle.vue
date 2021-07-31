@@ -46,8 +46,7 @@ export default {
     },
     methods: {
         sendArticle() {
-            axios.post('http://localhost:3000/api/articles',
-            this.article,
+            axios.post('http://localhost:3000/api/articles', this.article,
             {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
                 console.log('article créé');
@@ -64,11 +63,8 @@ export default {
             this.article.article_image = null;
         },
         onSelect(event) {
-            this.article_image = event.target.files[0];
-            console.log(this.article_image);
-        },
-        onUpload() {
-            
+            this.article.article_image = event.target.files[0];
+            console.log(this.article);
         }
     }
 }

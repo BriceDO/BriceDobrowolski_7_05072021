@@ -11,10 +11,16 @@ const storage = multer.diskStorage({
         callback(null, 'images')
     },
     filename: (req, file, callback) => {
-        const name = file.originalname.split(' ').join('_');
         const extension = MIME_TYPES[file.mimetype];
-        callback(null, name + Date.now() + '.' + extension);
+        const nameWithNoSpace = file.originalname.split(' ').join('_');
+        callback(null, removeExtension(nameWithNoSpace) + Date.now() + '.' + extension);
     }
 });
 
-module.exports = multer({ storage }).single('image');
+function removeExtension(filename){
+    var lastDotPosition = filename.lastIndexOf(".");
+    if (lastDotPosition === -1) return filename;
+    else return filename.substr(0, lastDotPosition);
+}
+
+module.exports = multer({ storage }).single('article_image');
