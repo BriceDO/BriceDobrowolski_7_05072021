@@ -51,7 +51,7 @@ module.exports = class ArticleService {
             connection.query(query, (err, result) => {
                 if (err) {
                     reject(err);
-                    // Sinon si le tableau est vide (il n'a pas de longueur), on envoie null
+                    // Si le tableau est vide (il n'a pas de longueur), on envoie null
                 } else if (result.length == 0){
                     resolve(null); 
                 } else {    

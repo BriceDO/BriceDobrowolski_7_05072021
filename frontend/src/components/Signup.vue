@@ -16,7 +16,7 @@
 
                 <div class="form-group">
                     <label>Adresse email</label>
-                    <input v-model="user.email" pattern="" type="email" name="Votre adresse email" class="form-control" required/>
+                    <input v-model="user.email" type="email" name="Votre adresse email" class="form-control" required/>
                 </div>
 
                 <div class="form-group ">

@@ -33,29 +33,32 @@
                             </div>
                         </div>
                     </div>   
+                    <!-- Input Comment -->
                 <div class="container mt-2 mb-2">   
                     <div class="d-flex justify-content-center row">
                         <div class="col-md-10">
                             <div class="d-flex flex-row align-items-center add-comment p-2 bg-white rounded">
                                 <img class="rounded-circle" src="https://i.imgur.com/QvDFBCC.jpg" width="40">
-                                <input type="text" class="form-control border-0 no-box-shadow ml-1" placeholder="Votre commentaire...">
+                                <input @keyup.enter="sendComment()" v-model="commentInput.commentaire_contenu" type="text" class="form-control ms-1" placeholder="Votre commentaire..." required>
                             </div>
-                            <div class="p-3 bg-white mt-2 rounded">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex flex-row"><img class="rounded-circle me-2" src="https://i.imgur.com/Yxje2El.jpg" width="25%">
+
+                            <!-- Comments -->
+                            <div v-bind:key="index" v-for="(commentaire, index) in allComments" class="p-3 bg-white mt-2 rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex flex-row"><img class="rounded-circle me-2" src="https://picsum.photos/50/50" width="45">
                                         <div class="d-flex flex-column ml-2">
-                                            <span class="ms-1">Prenom Nom</span>
-                                            <small class="ms-1 text-muted"> <i class="fa fa-clock-o"></i> </small>
+                                            <span class="ms-1">{{ commentaire.prenom }} {{ commentaire.nom }}</span>
+                                            <small class="ms-1 text-muted"> <i class="fa fa-clock-o"></i> {{commentaire.date_creation | filterFormatDate}} </small>
                                         </div>
                                     </div>
-                                        <b-dropdown id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
-                                            <b-dropdown-item href="#">Modifier</b-dropdown-item>
-                                            <b-dropdown-item href="#">Supprimer</b-dropdown-item>
-                                        </b-dropdown>
+                                    <b-dropdown v-if="userId == commentInput.id_utilisateur" id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
+                                        <b-dropdown-item href="#">Modifier</b-dropdown-item>
+                                        <b-dropdown-item href="#">Supprimer</b-dropdown-item>
+                                    </b-dropdown>
                                 </div>
-                                    <div class="text-justify mt-2">
-                                        <p>Contenu.</p>
-                                    </div>
+                                <div class="text-justify ">
+                                    <span>{{commentaire.commentaire_contenu}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,38 +76,64 @@ export default {
     name: 'OneArticle',
     data() {
         return {
+            commentInput:{
+                commentaire_contenu: '',
+                id_utilisateur: localStorage.getItem('userId'),
+                id_article: this.articleId
+            },
             oneArticle: {},
-            allComments:[],
-            articleId: this.$route.params.id
-        }
+            allComments: {},
+            toggleOption: false,
+            articleId: this.$route.params.id,
+            userPrenom: localStorage.getItem('userPrenom'),
+            userNom: localStorage.getItem('userNom'),
+            userPhoto: localStorage.getItem('userPhoto'),
+            userId: localStorage.getItem('userId')
+        }   
     },
     created(){
         this.loadArticle();
+        this.loadComments();
     },
     methods: {
         loadArticle() {
             axios.get('http://localhost:3000/api/articles/'+this.articleId, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
-        .then(reponse => {
-            console.log(reponse);
-            this.oneArticle = reponse.data.article
-        })
-        .catch((error) => {
-            console.log(error.message);
-        })
-    }},
+            .then(reponse => {
+                this.oneArticle = reponse.data.article
+            })
+            .catch((error) => {
+                console.log(error.message);
+            })
+        },
+        loadComments() {
+            axios.get('http://localhost:3000/api/articles/'+this.articleId+'/comments', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+             .then(reponse => {
+                this.allComments = reponse.data.commentaires
+            })
+            .catch((error) => {
+                console.log(error.message);
+            })
+        },
+        sendComment: function() {
+            axios.post('http://localhost:3000/api/articles/'+this.articleId+'/comments', this.commentInput, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+            .then(() => {
+                console.log('commentaire créé');
+                this.commentInput.commentaire_contenu = ''
+            })
+            .catch((error) => {
+                console.log(error.message);
+            })
+        }
+    },
     filters: {
         filterFormatDate: function (date) {
             let newDate = new Date(date);
             let hours = ('0'+newDate.getHours()).slice(-2);
             let mins = ('0'+newDate.getMinutes()).slice(-2);
-            let month = ('0'+newDate.getMonth()).slice(-2);
+            let month = ('0'+(newDate.getMonth() + 1)).slice(-2);
             let day = ('0'+newDate.getDate()).slice(-2);
             return day + "/" + month + "/" + newDate.getFullYear() + " à " + hours + "h" + mins;
         }
     },
 }
 </script>
-
-<style scoped>
-
-</style>

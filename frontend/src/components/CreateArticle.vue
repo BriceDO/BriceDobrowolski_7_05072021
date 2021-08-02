@@ -18,7 +18,7 @@
                             <input type="file" @change="onSelect" class="form-control-file" id="exampleFormControlFile1">
                         </div>
                     </form>
-                        <button v-on:click="onUpload" v-on:click.prevent="sendArticle" class="btn btn-primary me-2 mt-2">Partager</button>
+                    <button v-on:click.prevent="sendArticle" class="btn btn-primary me-2 mt-2">Partager</button>
             </div>
         </div>
     </div>

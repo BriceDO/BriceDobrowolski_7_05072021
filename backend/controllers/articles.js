@@ -92,7 +92,6 @@ exports.createComment = (req, res, next) => {
 }
 
 exports.getAllComments = (req, res, next) => {
-
     CommentService.getAllComments(req.params.id)
     .then(commentaires =>{
         if (commentaires == null) {

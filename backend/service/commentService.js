@@ -20,11 +20,16 @@ module.exports = class CommentService {
 
     static getAllComments(id_article) {
         // Pour recevoir tous les commentaires d'un article par ordre chronologique (du plus récent au plus vieux)
-        let query = "SELECT * FROM commentaires WHERE id_article = "+id_article+" ORDER BY date_creation DESC";
+
+        let query = "SELECT c.*, u.prenom, nom, photo " ;
+            query += "FROM commentaires as c LEFT JOIN utilisateurs as u ON u.id = c.id_utilisateur " ;
+            query += "WHERE id_article = "+id_article+" " ;
+            query += "ORDER BY c.date_creation DESC;";
+    
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
-                    reject("Probleme SQL (getAllComments)");
+                    reject(console.log(err.sql));
                     // Sinon si le tableau est vide (il n'a pas de longueur), on envoie null
                 } else if (result.length == 0){
                     resolve(null); 

@@ -37,8 +37,7 @@ export default {
     methods: { 
       logOut() {
           this.userPrenom = null;
-          localStorage.removeItem('token');
-          localStorage.removeItem('userPrenom');
+          localStorage.clear();
           this.$router.push('/')
         }
     }
