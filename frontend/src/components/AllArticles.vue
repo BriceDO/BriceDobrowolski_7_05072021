@@ -29,14 +29,14 @@
                                     </a>
                                     <p class="card-text">{{ article.article_contenu }}</p>
 
-                                    <div>
-                                        <img src="https://picsum.photos/50/50" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
+                                    <div v-if="article.article_image.length > 2">
+                                        <img :src="imgName(article.article_image)" width="20%" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <i class="fa fa-comment "></i>
-                                    <a v-if="article.nbCommentaire < 2" class="card-link ms-2">{{ article.nbCommentaire }} commentaire </a>
-                                    <a v-else class="card-link ms-2">{{ article.nbCommentaire }} commentaires </a>
+                                    <i class="fa fa-comment"></i>
+                                    <span v-if="article.nbCommentaire < 2" class="ms-2">{{ article.nbCommentaire }} commentaire </span>
+                                    <span v-else class="ms-2">{{ article.nbCommentaire }} commentaires </span>
                                 </div>
                             </div>
                         </div>     
@@ -60,7 +60,7 @@ export default {
     data() {
         return {
             allArticles: [],
-            UserImg: ''
+            showImg: false
         }
     },
     created(){
@@ -83,11 +83,15 @@ export default {
         loadArticles: function() {
             axios.get('http://localhost:3000/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then(reponse => {
+            console.log(reponse.data.allArticles);
             this.allArticles = reponse.data.allArticles
         })
         .catch((error) => {
             console.log(error.message);
         })
+        },
+        imgName(filename){
+            return `http://localhost:3000/images/${filename}`;
         }
     }
 }

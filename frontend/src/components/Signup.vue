@@ -51,16 +51,21 @@
                     nom:'',
                     prenom: '',
                     email:'',
-                    password:'' 
+                    password:''
                 },
             }   
         },
         methods: {
             sendForm(){
-                axios.post('http://localhost:3000/api/user/signup', this.user)
-                .then(() => {
+                axios.post('http://localhost:3000/api/auth/signup', this.user)
+                .then((res) => {
                     console.log("Le compte a été créé !")
-                    console.log(this.user);
+                    console.log(this.user)
+                    localStorage.setItem('token', res.data.token)
+                    localStorage.setItem('userPrenom', this.user.prenom)
+                    localStorage.setItem('userNom', this.user.nom)
+                    localStorage.setItem('userId', res.data.id)
+                    this.$router.push('articles');
                 })
                 .catch((error) =>{
                     console.log(error.message);

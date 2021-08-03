@@ -2,9 +2,7 @@
   <div>
     <nav class="navbar shadow bg-white rounded">
       <div class="container">
-        <a class="navbar-brand float-left" href="#" target="_blank">
-           Groupomania
-        </a>
+        <img class="img-fluid" href="#" src="http://localhost:3000/images/icon-left-font.png" width="250px" target="_blank">
         <ul v-if="!userPrenom" class="nav navbar-nav flex-row float-right">
           <li class="nav-item">
              <router-link class="nav-link pr-3" to="/">Se connecter</router-link>
@@ -13,10 +11,8 @@
             <router-link class="btn btn-outline-primary ms-2" to="/signup">S'inscrire</router-link>
           </li>
         </ul>
-
         <ul v-else class="nav navbar-nav flex-row float-right">
            <li class="nav-item">
-             {{userPrenom}}
             <button v-on:click="logOut" class="btn btn-outline-primary ms-2">Se déconnecter</button>
           </li>
         </ul>

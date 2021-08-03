@@ -26,7 +26,14 @@ exports.signup = (req, res, next) => {
                 if (!isExist && req.body.email != undefined) {
                     // Enregistrer l'utilisateur dans la base de donnée
                     UserService.createUser(user)
-                    .then(res.status(201).json({ message: 'Utilisateur créé !' }))
+                    .then(res.status(201).json({
+                        ... user,
+                        token: jwt.sign(
+                            { userId: user.id },
+                            process.env.TOKEN,
+                            { expiresIn : '24h' }
+                        )
+                    }))
                 } else {
                     res.status(400).json({ "message erreur" : "L'email a déjà été utilisé ou sa validation n'a pas été autorisée. Création du compte impossible." })
                 }

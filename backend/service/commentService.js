@@ -6,7 +6,7 @@ module.exports = class CommentService {
 
     static createComment(commentaire) {
         // Pour créer un commentaire
-        let query = "INSERT INTO commentaires (date_creation, commentaire_contenu, commentaire_image, id_article, id_utilisateur) VALUES (now(), '"+commentaire.commentaire_contenu.replace("'","''")+"', '"+commentaire.commentaire_image+"', "+commentaire.id_article+", "+commentaire.id_utilisateur+")";
+        let query = "INSERT INTO commentaires (date_creation, commentaire_contenu, id_article, id_utilisateur) VALUES (now(), '"+commentaire.commentaire_contenu.replace("'","''")+"', "+commentaire.id_article+", "+commentaire.id_utilisateur+")";
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
@@ -43,7 +43,7 @@ module.exports = class CommentService {
 
     static modifyComment(id, commentaire){
         return new Promise((resolve, reject) => {
-            let query = "UPDATE commentaires SET commentaire_contenu = '"+commentaire.commentaire_contenu.replace("'","''")+"', commentaire_image = '"+commentaire.commentaire_image+"' WHERE id = "+id+" ";
+            let query = "UPDATE commentaires SET commentaire_contenu = '"+commentaire.commentaire_contenu.replace("'","''")+"' WHERE id = "+id+" ";
             connection.query(query, (err, result) => {
                 if (err) {
                     reject("Probleme SQL (modifyComment)");

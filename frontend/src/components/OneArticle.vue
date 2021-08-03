@@ -27,9 +27,9 @@
                                 </div>
                             </div>
                             <div class="card-footer border-bottom">
-                                <i class="fa fa-comment "></i>
-                                <span v-if="oneArticle.nbCommentaire < 2" class="card-link ms-2 ">{{ oneArticle.nbCommentaire }} commentaire</span>
-                                <span v-else class="card-link ms-2 ">{{ oneArticle.nbCommentaire }} commentaires</span>
+                                <i class="fa fa-comment"></i>
+                                <span v-if="oneArticle.nbCommentaire < 2" class="ms-2">{{ oneArticle.nbCommentaire }} commentaire</span>
+                                <span v-else class="ms-2">{{ oneArticle.nbCommentaire }} commentaires</span>
                             </div>
                         </div>
                     </div>   
@@ -51,8 +51,7 @@
                                             <small class="ms-1 text-muted"> <i class="fa fa-clock-o"></i> {{commentaire.date_creation | filterFormatDate}} </small>
                                         </div>
                                     </div>
-                                    <b-dropdown v-if="userId == commentInput.id_utilisateur" id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
-                                        <b-dropdown-item href="#">Modifier</b-dropdown-item>
+                                    <b-dropdown id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
                                         <b-dropdown-item href="#">Supprimer</b-dropdown-item>
                                     </b-dropdown>
                                 </div>
@@ -83,7 +82,6 @@ export default {
             },
             oneArticle: {},
             allComments: {},
-            toggleOption: false,
             articleId: this.$route.params.id,
             userPrenom: localStorage.getItem('userPrenom'),
             userNom: localStorage.getItem('userNom'),
@@ -119,6 +117,7 @@ export default {
             .then(() => {
                 console.log('commentaire créé');
                 this.commentInput.commentaire_contenu = ''
+                window.location.reload()
             })
             .catch((error) => {
                 console.log(error.message);
@@ -134,6 +133,6 @@ export default {
             let day = ('0'+newDate.getDate()).slice(-2);
             return day + "/" + month + "/" + newDate.getFullYear() + " à " + hours + "h" + mins;
         }
-    },
+    }
 }
 </script>

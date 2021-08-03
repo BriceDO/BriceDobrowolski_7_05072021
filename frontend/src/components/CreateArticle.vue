@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card mb-5 mt-5">
+        <div class="card mb-4 mt-5">
         <div class="card-body">
             <div class="tab-content" id="myTabContent">
                     <div class="form-group">
@@ -49,6 +49,7 @@ export default {
             axios.post('http://localhost:3000/api/articles', this.article,
             {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
+                
                 console.log('article créé');
                 this.$emit('articleCree');
                 this.clearData();
