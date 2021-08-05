@@ -49,7 +49,6 @@ export default {
             axios.post('http://localhost:3000/api/articles', this.article,
             {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
-                
                 console.log('article créé');
                 this.$emit('articleCree');
                 this.clearData();

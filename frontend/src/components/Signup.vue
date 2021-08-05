@@ -27,7 +27,8 @@
 
                 <button v-on:click.prevent="sendForm" type="submit" class="submit btn btn-dark btn-lg btn-block mt-3">
                     
-                <router-link class="router-link" :to="{name: 'allArticles'}"> S'inscrire </router-link>
+                <router-link v-if="sendForm" class="router-link" :to="{name: 'signupSuccess'}"> S'inscrire </router-link>
+                <p v-else class="router-link"> Création de compte impossible, veuillez réessayer. </p>
 
                 </button>
 
@@ -58,14 +59,8 @@
         methods: {
             sendForm(){
                 axios.post('http://localhost:3000/api/auth/signup', this.user)
-                .then((res) => {
+                .then(() => {
                     console.log("Le compte a été créé !")
-                    console.log(this.user)
-                    localStorage.setItem('token', res.data.token)
-                    localStorage.setItem('userPrenom', this.user.prenom)
-                    localStorage.setItem('userNom', this.user.nom)
-                    localStorage.setItem('userId', res.data.id)
-                    this.$router.push('articles');
                 })
                 .catch((error) =>{
                     console.log(error.message);

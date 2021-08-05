@@ -15,10 +15,10 @@
                                             <div class="ms-2 text-muted">{{article.prenom}} {{article.nom}}</div>
                                         </div>
                                     </div>
-                                        <div class="">
-                                            <b-dropdown id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
-                                                <b-dropdown-item href="#">Modifier</b-dropdown-item>
-                                                <b-dropdown-item href="#">Supprimer</b-dropdown-item>
+                                        <div>
+                                            <b-dropdown v-if="article.id_utilisateur == userId" id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
+                                                <b-dropdown-item >Modifier</b-dropdown-item>
+                                                <b-dropdown-item v-on:click="deleteArticle(article.id)">Supprimer</b-dropdown-item>
                                             </b-dropdown>
                                         </div>
                                 </div>
@@ -29,7 +29,7 @@
                                     </a>
                                     <p class="card-text">{{ article.article_contenu }}</p>
 
-                                    <div v-if="article.article_image.length > 2">
+                                    <div v-if="article.article_image">
                                         <img :src="imgName(article.article_image)" width="20%" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
                                     </div>
                                 </div>
@@ -60,7 +60,8 @@ export default {
     data() {
         return {
             allArticles: [],
-            showImg: false
+            userIdStorage: localStorage.getItem('userId'),
+            userId: localStorage.getItem('userId')
         }
     },
     created(){
@@ -83,7 +84,6 @@ export default {
         loadArticles: function() {
             axios.get('http://localhost:3000/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then(reponse => {
-            console.log(reponse.data.allArticles);
             this.allArticles = reponse.data.allArticles
         })
         .catch((error) => {
@@ -92,13 +92,25 @@ export default {
         },
         imgName(filename){
             return `http://localhost:3000/images/${filename}`;
-        }
+        },
+        deleteArticle(id) {
+            axios.delete('http://localhost:3000/api/articles/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+            .then(() => {
+                console.log('article supprimé');
+                window.location.reload()
+            })
+            .catch((error) => {
+                console.log(error.message);
+            })
+        }    
     }
 }
 
 </script>
 
 <style scoped>
-
-
+    .col {
+        margin-bottom: 100px;
+    }
+    
 </style>

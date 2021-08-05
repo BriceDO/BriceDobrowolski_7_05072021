@@ -1,7 +1,10 @@
 <template> 
     <div>
         <div class="container">
-            <p class="text-right mt-3"><router-link :to="{name: 'allArticles'}">Retour au fil d'actualité</router-link></p>
+            <button class="home btn btn-light text-right mb-3 mt-3 me-3">
+                <b-icon class="me-2" icon="arrow-left-square"></b-icon>
+                <router-link class="home" :to="{name: 'allArticles'}">Retour au fil d'actualité</router-link>
+                </button>
             <div class="row">
                 <div class="col">
                     <div class="card mb-3">
@@ -18,12 +21,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="text-muted mb-2"> <i class="fa fa-clock-o"></i> {{oneArticle.date_creation | filterFormatDate }}</div>
-                                <a class="card-link" href="#">
-                                    <h5 class="card-title"><router-link to="/" >{{oneArticle.titre}}</router-link></h5>
-                                </a>
+                                    <h5 class="card-title mt-3 mb-3 border-bottom">{{oneArticle.titre}}</h5>
                                 <p class="card-text">{{oneArticle.article_contenu}}</p>
-                                <div>
-                                    <img src="https://picsum.photos/50/50" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
+                                <div v-if="oneArticle.article_image">
+                                    <img :src="imgName(oneArticle.article_image)" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
                                 </div>
                             </div>
                             <div class="card-footer border-bottom">
@@ -46,16 +47,16 @@
                             <div v-bind:key="index" v-for="(commentaire, index) in allComments" class="p-3 bg-white mt-2 rounded">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex flex-row"><img class="rounded-circle me-2" src="https://picsum.photos/50/50" width="45">
-                                        <div class="d-flex flex-column ml-2">
+                                        <div class="d-flex flex-column ml-2 ">
                                             <span class="ms-1">{{ commentaire.prenom }} {{ commentaire.nom }}</span>
                                             <small class="ms-1 text-muted"> <i class="fa fa-clock-o"></i> {{commentaire.date_creation | filterFormatDate}} </small>
                                         </div>
                                     </div>
-                                    <b-dropdown id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
-                                        <b-dropdown-item href="#">Supprimer</b-dropdown-item>
+                                    <b-dropdown v-if="commentaire.id_utilisateur == userId" id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
+                                        <b-dropdown-item v-on:click="deleteComment(commentaire.id)">Supprimer</b-dropdown-item>
                                     </b-dropdown>
                                 </div>
-                                <div class="text-justify ">
+                                <div class="text-justify mt-2 ">
                                     <span>{{commentaire.commentaire_contenu}}</span>
                                 </div>
                             </div>
@@ -112,16 +113,28 @@ export default {
                 console.log(error.message);
             })
         },
+        deleteComment(id) {
+             axios.delete('http://localhost:3000/api/comments/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+             .then(() => {
+                 console.log('commentaire supprimé');
+                 window.location.reload()
+             })
+             .catch((error) => {
+                 console.log(error.message);
+             })
+         },
         sendComment: function() {
             axios.post('http://localhost:3000/api/articles/'+this.articleId+'/comments', this.commentInput, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
                 console.log('commentaire créé');
-                this.commentInput.commentaire_contenu = ''
                 window.location.reload()
             })
             .catch((error) => {
                 console.log(error.message);
             })
+        },
+        imgName(filename){
+            return `http://localhost:3000/images/${filename}`;
         }
     },
     filters: {
@@ -136,3 +149,21 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .col {
+        margin-bottom: 100px;
+    }
+
+    a{
+        text-decoration: none;
+        color: black;
+    }
+
+    h5 {
+        cursor: initial;
+    }
+
+
+    
+</style>

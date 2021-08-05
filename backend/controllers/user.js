@@ -24,16 +24,8 @@ exports.signup = (req, res, next) => {
             // Le then ici renvoie à la promesse de la classe UserService.isUserAlreadyExist et le isExist fait référence à result
 
                 if (!isExist && req.body.email != undefined) {
-                    // Enregistrer l'utilisateur dans la base de donnée
                     UserService.createUser(user)
-                    .then(res.status(201).json({
-                        ... user,
-                        token: jwt.sign(
-                            { userId: user.id },
-                            process.env.TOKEN,
-                            { expiresIn : '24h' }
-                        )
-                    }))
+                    .then(res.status(201).json({ message: 'Utilisateur créé !' }))
                 } else {
                     res.status(400).json({ "message erreur" : "L'email a déjà été utilisé ou sa validation n'a pas été autorisée. Création du compte impossible." })
                 }

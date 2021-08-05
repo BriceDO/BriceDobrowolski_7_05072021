@@ -3,6 +3,7 @@ import Signup from './components/Signup'
 import AllArticles from './components/AllArticles'
 import NotFound from './components/NotFound'
 import OneArticle from './components/OneArticle'
+import SignupSuccess from './components/SignupSuccess'
 
 export default [
   {
@@ -33,6 +34,11 @@ export default [
     name: 'oneArticle',
     component: OneArticle,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/signup/#',
+    name: 'signupSuccess',
+    component: SignupSuccess,
   },
   {
     path: '/404',

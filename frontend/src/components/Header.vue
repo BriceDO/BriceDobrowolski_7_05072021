@@ -27,7 +27,7 @@ export default {
     name:'Header',
     data() {
       return {
-         userPrenom : localStorage.getItem("userPrenom"),
+         userPrenom: localStorage.getItem("userPrenom"),
       }
     },
     methods: { 
