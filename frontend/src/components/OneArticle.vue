@@ -15,13 +15,13 @@
                                         <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
                                     </div>
                                     <div>
-                                        <div class="ms-2 text-muted">{{oneArticle.prenom}} {{oneArticle.nom}}</div>
+                                        <div class="ms-2">{{oneArticle.prenom}} {{oneArticle.nom}}</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="text-muted mb-2"> <i class="fa fa-clock-o"></i> {{oneArticle.date_creation | filterFormatDate }}</div>
-                                    <h5 class="card-title mt-3 mb-3 border-bottom">{{oneArticle.titre}}</h5>
+                                <small class="mb-2"> <i class="fa fa-clock-o"></i> {{oneArticle.date_creation | filterFormatDate }}</small>
+                                    <h5 class="card-title mt-2 mb-3 border-bottom">{{oneArticle.titre}}</h5>
                                 <p class="card-text">{{oneArticle.article_contenu}}</p>
                                 <div v-if="oneArticle.article_image">
                                     <img :src="imgName(oneArticle.article_image)" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
@@ -39,8 +39,9 @@
                     <div class="d-flex justify-content-center row">
                         <div class="col-md-10">
                             <div class="d-flex flex-row align-items-center add-comment p-2 bg-white rounded">
-                                <img class="rounded-circle" src="https://i.imgur.com/QvDFBCC.jpg" width="40">
+                                <img class="rounded-circle" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" width="40">
                                 <input @keyup.enter="sendComment()" v-model="commentInput.commentaire_contenu" type="text" class="form-control ms-1" placeholder="Votre commentaire..." required>
+                               <button v-on:click="sendComment()" class="btn btn-success ms-2"> <b-icon  type="button"  icon="arrow-return-right"></b-icon> </button> 
                             </div>
 
                             <!-- Comments -->
@@ -49,11 +50,11 @@
                                     <div class="d-flex flex-row"><img class="rounded-circle me-2" src="https://picsum.photos/50/50" width="45">
                                         <div class="d-flex flex-column ml-2 ">
                                             <span class="ms-1">{{ commentaire.prenom }} {{ commentaire.nom }}</span>
-                                            <small class="ms-1 text-muted"> <i class="fa fa-clock-o"></i> {{commentaire.date_creation | filterFormatDate}} </small>
+                                            <small class="ms-1"> <i class="fa fa-clock-o"></i> {{commentaire.date_creation | filterFormatDate}} </small>
                                         </div>
                                     </div>
                                     <b-dropdown v-if="commentaire.id_utilisateur == userId" id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
-                                        <b-dropdown-item v-on:click="deleteComment(commentaire.id)">Supprimer</b-dropdown-item>
+                                        <b-dropdown-item v-on:click="deleteComment(commentaire.id, index)">Supprimer</b-dropdown-item>
                                     </b-dropdown>
                                 </div>
                                 <div class="text-justify mt-2 ">
@@ -82,12 +83,13 @@ export default {
                 id_article: this.articleId
             },
             oneArticle: {},
-            allComments: {},
+            allComments: [],
             articleId: this.$route.params.id,
             userPrenom: localStorage.getItem('userPrenom'),
             userNom: localStorage.getItem('userNom'),
             userPhoto: localStorage.getItem('userPhoto'),
-            userId: localStorage.getItem('userId')
+            userId: localStorage.getItem('userId'),
+            placeholder: false
         }   
     },
     created(){
@@ -113,11 +115,11 @@ export default {
                 console.log(error.message);
             })
         },
-        deleteComment(id) {
+        deleteComment(id, index) {
              axios.delete('http://localhost:3000/api/comments/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
              .then(() => {
                  console.log('commentaire supprimé');
-                 window.location.reload()
+                 this.allComments.splice(index, 1)
              })
              .catch((error) => {
                  console.log(error.message);

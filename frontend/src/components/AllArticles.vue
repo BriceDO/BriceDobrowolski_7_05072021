@@ -9,29 +9,42 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                                            <img class="rounded-circle" width="45" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" alt="user_icon">
                                         </div>
                                         <div>
-                                            <div class="ms-2 text-muted">{{article.prenom}} {{article.nom}}</div>
+                                            <div class="ms-2">{{article.prenom}} {{article.nom}}</div>
                                         </div>
                                     </div>
                                         <div>
-                                            <b-dropdown v-if="article.id_utilisateur == userId" id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
-                                                <b-dropdown-item >Modifier</b-dropdown-item>
-                                                <b-dropdown-item v-on:click="deleteArticle(article.id)">Supprimer</b-dropdown-item>
+                                            <b-dropdown aria-label="options article" v-if="article.id_utilisateur == userId" id="dropdown-dropleft" dropleft variant="primary" class="m-2 float-right">
+                                                <b-dropdown-item aria-label="modifier article" v-on:click="setIdArticleToUpdate(article.id)">Modifier</b-dropdown-item>
+                                                <b-dropdown-item aria-label="supprimer article" v-on:click="deleteArticle(article.id, index)">Supprimer</b-dropdown-item>
                                             </b-dropdown>
                                         </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-muted mb-2"> <i class="fa fa-clock-o"></i> Le {{ article.date_creation | filterFormatDate }}</div>
-                                    <a class="card-link"  >
-                                        <h5 v-on:click="goToOneArticle(article.id)" class="card-title">{{ article.titre }}</h5>
-                                    </a>
-                                    <p class="card-text">{{ article.article_contenu }}</p>
+                                    <small> <i class="fa fa-clock-o"></i> Le {{ article.date_creation | filterFormatDate }}</small>
 
+                                    <!-- Lecture -->
+                                    <div v-if="idArticleUpdate != article.id">
+                                        <a class="card-link"  >
+                                            <h5 v-on:click="goToOneArticle(article.id)" class="card-title mt-2">{{ article.titre }}</h5>
+                                        </a>
+                                        <p class="card-text">{{ article.article_contenu }}</p>
+                                    </div>
+
+                                    <!-- Update -->
+                                    <div class="form-group mt-2" v-else>
+                                        <input type="text" class="form-control mb-2" id="message" maxlength="45" rows="1" v-model="article.titre">
+                                        <textarea v-model="article.article_contenu" class="form-control mb-2" id="message" rows="3"></textarea>
+                                        <input v-on:click="modifyArticle(article.id, article)" type="submit" value="Modifier" class="btn-success rounded">
+                                        <input class="btn-danger ms-2 rounded" type="submit" value="Annuler" v-on:click="setIdArticleToUpdate(null)">
+                                    </div>
+                                    
                                     <div v-if="article.article_image">
                                         <img :src="imgName(article.article_image)" width="20%" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
                                     </div>
+
                                 </div>
                                 <div class="card-footer">
                                     <i class="fa fa-comment"></i>
@@ -61,7 +74,8 @@ export default {
         return {
             allArticles: [],
             userIdStorage: localStorage.getItem('userId'),
-            userId: localStorage.getItem('userId')
+            userId: localStorage.getItem('userId'),
+            idArticleUpdate: null,
         }
     },
     created(){
@@ -93,16 +107,29 @@ export default {
         imgName(filename){
             return `http://localhost:3000/images/${filename}`;
         },
-        deleteArticle(id) {
+        deleteArticle(id, index) {
             axios.delete('http://localhost:3000/api/articles/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
                 console.log('article supprimé');
-                window.location.reload()
+                this.allArticles.splice(index, 1)
             })
             .catch((error) => {
                 console.log(error.message);
             })
-        }    
+        },
+         modifyArticle(id, article) {
+             axios.put('http://localhost:3000/api/articles/'+id, article, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+             .then(() => {
+                 console.log('article modifié');
+                 this.idArticleUpdate = null
+             })
+             .catch((error) => {
+                 console.log(error.message);
+             })
+        },
+        setIdArticleToUpdate(article_id){
+            this.idArticleUpdate = article_id
+        }
     }
 }
 

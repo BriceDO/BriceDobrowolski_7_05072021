@@ -3,7 +3,7 @@
   }
   
   body {
-    background: lightblue !important;
+    background: #0e1d48;
   }
   
   
@@ -23,7 +23,7 @@
     border-color: #2554FF;
     box-shadow: none;
   }
-  
+
   .vertical-center h3 {
     text-align: center;
     margin: 0;
@@ -39,10 +39,6 @@
       margin-top: 5px;
   }
 
-  .router-link{
-    text-decoration: none;
-    color: inherit;
-}
   .card-title{
     cursor: pointer;
 }
@@ -56,4 +52,13 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+
+a {
+  color: #0e1d48;
+  text-decoration: none;
+}
+
+h5:hover{
+  text-decoration: underline #cf5258;
 }
