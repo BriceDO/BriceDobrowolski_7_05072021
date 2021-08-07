@@ -12,7 +12,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                                        <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="user_icon">
                                     </div>
                                     <div>
                                         <div class="ms-2">{{oneArticle.prenom}} {{oneArticle.nom}}</div>
@@ -47,7 +47,7 @@
                             <!-- Comments -->
                             <div v-bind:key="index" v-for="(commentaire, index) in allComments" class="p-3 bg-white mt-2 rounded">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex flex-row"><img class="rounded-circle me-2" src="https://picsum.photos/50/50" width="45">
+                                    <div class="d-flex flex-row"><img class="rounded-circle me-2" alt="post_picture" src="https://picsum.photos/50/50" width="45">
                                         <div class="d-flex flex-column ml-2 ">
                                             <span class="ms-1">{{ commentaire.prenom }} {{ commentaire.nom }}</span>
                                             <small class="ms-1"> <i class="fa fa-clock-o"></i> {{commentaire.date_creation | filterFormatDate}} </small>
@@ -120,6 +120,7 @@ export default {
              .then(() => {
                  console.log('commentaire supprimé');
                  this.allComments.splice(index, 1)
+                 this.loadArticle();
              })
              .catch((error) => {
                  console.log(error.message);
@@ -129,7 +130,9 @@ export default {
             axios.post('http://localhost:3000/api/articles/'+this.articleId+'/comments', this.commentInput, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
                 console.log('commentaire créé');
-                window.location.reload()
+                this.loadComments();
+                this.loadArticle();
+                this.commentInput.commentaire_contenu = null;
             })
             .catch((error) => {
                 console.log(error.message);
@@ -165,7 +168,4 @@ export default {
     h5 {
         cursor: initial;
     }
-
-
-    
 </style>

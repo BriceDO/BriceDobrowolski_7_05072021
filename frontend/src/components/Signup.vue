@@ -5,33 +5,27 @@
                 <h3 class="mt-5">Inscription</h3>
 
                 <div class="form-group">
-                    <label>Nom</label>
+                    <label class="mb-2">Nom</label>
                     <input v-model="user.nom" type="text" name="Votre nom" class="form-control" required/>
                 </div>
 
                 <div class="form-group">
-                    <label>Prénom</label>
+                    <label class="mb-1 mt-2">Prénom</label>
                     <input v-model="user.prenom" type="text" name="Votre prénom" class="form-control" required/>
                 </div>
 
                 <div class="form-group">
-                    <label>Adresse email</label>
+                    <label class="mb-1 mt-2">Adresse email</label>
                     <input v-model="user.email" type="email" name="Votre adresse email" class="form-control" required/>
                 </div>
 
                 <div class="form-group ">
-                    <label>Mot de passe</label>
-                    <input v-model="user.password" type="password" name="Votre mot de passe" class="form-control" autocomplete="on" required/>
-                    <small class="form-text text-muted">Au moins 6 caractères dont un chiffre.</small>
+                    <label class="mb-1 mt-2">Mot de passe</label>
+                    <input placeholder="Au moins 6 caractères dont un chiffre" v-model="user.password" type="password" name="Votre mot de passe" class="form-control" autocomplete="on" required/>
                 </div>
 
-                <button v-on:click.prevent="sendForm" type="submit" class="submit btn btn-dark btn-lg btn-block mt-3">
-                    
-                <router-link v-if="sendForm" class="router-link" :to="{name: 'signupSuccess'}"> S'inscrire </router-link>
-                <p v-else class="router-link"> Création de compte impossible, veuillez réessayer. </p>
-
-                </button>
-
+                <button v-on:click.prevent="sendForm" type="submit" class="submit btn btn-info btn-lg btn-block mt-3">S'inscrire</button>
+                <p v-if="errorSignup" class="mt-2 text-danger"> Création de compte impossible, veuillez réessayer. </p>
                 <p class="text-right mt-3">
                     Déjà inscrit ?
                     <router-link  :to="{name: 'login'}">Se connecter</router-link>
@@ -54,6 +48,7 @@
                     email:'',
                     password:''
                 },
+                errorSignup: false,
             }   
         },
         methods: {
@@ -64,6 +59,7 @@
                 })
                 .catch((error) =>{
                     console.log(error.message);
+                    this.errorSignup = true
                 })
             },
         }
@@ -80,4 +76,15 @@ input.form-control:invalid {
     border:1px solid grey !important;
 } 
 
+label, a, p, h3{
+    color: white;
+}
+
+a:hover {
+    color: white;
+}
+
+.router-link {
+    color: black;
+}
 </style>

@@ -38,12 +38,11 @@ export default {
     data() {
         return {
             article:{
+                titre: null,
+                article_contenu: null,
                 article_image: null,
-                contenu_texte: {
-                    titre: null,
-                    article_contenu: null,
-                    id_utilisateur: localStorage.getItem('userId')
-                }
+                id_utilisateur: localStorage.getItem('userId')
+
             },
             userPrenom: localStorage.getItem('userPrenom'),
             userNom: localStorage.getItem('userNom'),
@@ -55,9 +54,12 @@ export default {
         sendArticle() {
 
             const formData = new FormData()
-            formData.append('image', this.article.article_image.files[0])
-
-            axios.post('http://localhost:3000/api/articles', this.article,
+            formData.append('article_image', this.article.article_image);
+            formData.append('article_contenu', this.article.article_contenu);
+            formData.append('id_utilisateur', this.article.id_utilisateur);
+            formData.append('titre', this.article.article_contenu);
+            
+            axios.post('http://localhost:3000/api/articles', formData,
             {headers : {
                 'Content-Type': 'multipart/form-data',
                 "Authorization": 'Bearer ' + localStorage.getItem('token')

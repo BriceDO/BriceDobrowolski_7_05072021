@@ -8,7 +8,6 @@ const CommentService = require ('../service/commentService')
 exports.createArticle = (req, res, next) => {
 
     const article = {
-        date_creation : req.body.date_creation,
         titre : req.body.titre,
         article_contenu : req.body.article_contenu,
         article_image : req.file.filename,

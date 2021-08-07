@@ -62,3 +62,15 @@ a {
 h5:hover{
   text-decoration: underline #cf5258;
 }
+
+@media screen and (max-width: 640px) {
+  .logo_header {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .logo_header {
+    width: 140px;
+  }
+}

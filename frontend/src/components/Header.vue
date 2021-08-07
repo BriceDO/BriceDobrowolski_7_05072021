@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar shadow bg-white rounded">
       <div class="container">
-        <img class="img-fluid" href="#" alt="logo_header" src="http://localhost:3000/images/icon-left-font.png" width="250px" target="_blank">
+        <img class="logo_header img-fluid" href="#" alt="logo_header" src="http://localhost:3000/images/icon-left-font.png" width="250px" target="_blank">
         <ul v-if="!userPrenom" class="nav navbar-nav flex-row float-right">
           <li class="nav-item">
              <router-link class="nav-link pr-3" to="/">Se connecter</router-link>
