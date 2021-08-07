@@ -86,7 +86,7 @@ export default {
             let newDate = new Date(date);
             let hours = ('0'+newDate.getHours()).slice(-2);
             let mins = ('0'+newDate.getMinutes()).slice(-2);
-            let month = ('0'+newDate.getMonth()).slice(-2);
+            let month = ('0'+(newDate.getMonth() + 1)).slice(-2);
             let day = ('0'+newDate.getDate()).slice(-2);
             return day + "/" + month + "/" + newDate.getFullYear() + " à " + hours + "h" + mins;
         }
