@@ -1,1 +1,1 @@
-Pour utiliser l'application, veillez à créer et à configurer les fichier .env dans le dossier backend et frontend avec les informations demandées.
+Pour utiliser l'application, veillez à bien configurer les fichier .env dans le dossier backend et frontend avec les informations demandées.
