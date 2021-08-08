@@ -10,7 +10,7 @@ module.exports = class ArticleService {
         return new Promise((resolve, reject) => {
             connection.query(query, (err, result) => {
                 if (err) {
-                    reject("Probleme SQL (createArticle)"); 
+                    reject(err.sqlMessage); 
                 } else {
                     resolve(true);
                 };

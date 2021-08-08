@@ -42,7 +42,6 @@ export default {
                 article_contenu: null,
                 article_image: null,
                 id_utilisateur: localStorage.getItem('userId')
-
             },
             userPrenom: localStorage.getItem('userPrenom'),
             userNom: localStorage.getItem('userNom'),
@@ -59,7 +58,7 @@ export default {
             formData.append('id_utilisateur', this.article.id_utilisateur);
             formData.append('titre', this.article.article_contenu);
             
-            axios.post('http://localhost:3000/api/articles', formData,
+            axios.post(process.env.VUE_APP_API_BACKEND_URL+'/api/articles', formData,
             {headers : {
                 'Content-Type': 'multipart/form-data',
                 "Authorization": 'Bearer ' + localStorage.getItem('token')
@@ -80,7 +79,6 @@ export default {
         },
         onSelect(event) {
             this.article.article_image = event.target.files[0];
-            console.log(this.article);
         }
     }
 }

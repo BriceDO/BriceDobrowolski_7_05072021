@@ -7,10 +7,12 @@ const CommentService = require ('../service/commentService')
 
 exports.createArticle = (req, res, next) => {
 
+    console.log(req.file);
+    
     const article = {
         titre : req.body.titre,
         article_contenu : req.body.article_contenu,
-        article_image : req.file.filename,
+        article_image : req.file != undefined ? req.file.filename : '',
         id_utilisateur : req.body.id_utilisateur
     };
 
@@ -61,13 +63,28 @@ exports.modifyArticle = (req, res, next) => {
 
 exports.deleteArticle = (req, res, next) => {
 
-    ArticleService.deleteArticle(req.params.id)
-    .then(() => {
-        return res.status(201).json({ "message": 'Article supprimé !' });
-   })
-   .catch((errMessage) => {
-        return res.status(400).json({ "message": errMessage });
-   });
+    ArticleService.getOneArticle(req.params.id)
+    .then((article) => {
+        if (article.article_image != null || article.article_image != '') {
+            fs.unlink("images/" + article.article_image, (err => {
+                if (err) {
+                    console.log(err);
+                }
+            }));
+        }
+
+        ArticleService.deleteArticle(req.params.id)
+        .then(() => {
+            return res.status(201).json({ "message": 'Article supprimé !' });
+       })
+       .catch((errMessage) => {
+            return res.status(400).json({ "message": errMessage });
+       });
+    } )
+
+   
+
+
 };
 
 // COMMENTAIRES
@@ -94,7 +111,7 @@ exports.getAllComments = (req, res, next) => {
     CommentService.getAllComments(req.params.id)
     .then(commentaires =>{
         if (commentaires == null) {
-            return res.status(404).json({ "message": "Commentaires introuvables" })
+            return res.status(200).json({ "message": "Aucun commentaire trouvé" })
         }
         return res.status(201).json({ commentaires })
     })

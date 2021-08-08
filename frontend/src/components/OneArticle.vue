@@ -98,7 +98,7 @@ export default {
     },
     methods: {
         loadArticle() {
-            axios.get('http://localhost:3000/api/articles/'+this.articleId, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+            axios.get(process.env.VUE_APP_API_BACKEND_URL+'/api/articles/'+this.articleId, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(reponse => {
                 this.oneArticle = reponse.data.article
             })
@@ -107,7 +107,7 @@ export default {
             })
         },
         loadComments() {
-            axios.get('http://localhost:3000/api/articles/'+this.articleId+'/comments', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+            axios.get(process.env.VUE_APP_API_BACKEND_URL+'/api/articles/'+this.articleId+'/comments', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
              .then(reponse => {
                 this.allComments = reponse.data.commentaires
             })
@@ -116,7 +116,7 @@ export default {
             })
         },
         deleteComment(id, index) {
-             axios.delete('http://localhost:3000/api/comments/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+             axios.delete(process.env.VUE_APP_API_BACKEND_URL+'/api/comments/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
              .then(() => {
                  console.log('commentaire supprimé');
                  this.allComments.splice(index, 1)
@@ -127,7 +127,7 @@ export default {
              })
          },
         sendComment: function() {
-            axios.post('http://localhost:3000/api/articles/'+this.articleId+'/comments', this.commentInput, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+            axios.post(process.env.VUE_APP_API_BACKEND_URL+'/api/articles/'+this.articleId+'/comments', this.commentInput, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
                 console.log('commentaire créé');
                 this.loadComments();
@@ -139,7 +139,7 @@ export default {
             })
         },
         imgName(filename){
-            return `http://localhost:3000/images/${filename}`;
+            return `${process.env.VUE_APP_API_BACKEND_URL}/images/${filename}`;
         }
     },
     filters: {

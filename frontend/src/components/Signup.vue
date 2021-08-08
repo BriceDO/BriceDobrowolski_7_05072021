@@ -53,9 +53,10 @@
         },
         methods: {
             sendForm(){
-                axios.post('http://localhost:3000/api/auth/signup', this.user)
+                axios.post(process.env.VUE_APP_API_BACKEND_URL+'/api/auth/signup', this.user)
                 .then(() => {
                     console.log("Le compte a été créé !")
+                    this.$router.push('signup/success');
                 })
                 .catch((error) =>{
                     console.log(error.message);

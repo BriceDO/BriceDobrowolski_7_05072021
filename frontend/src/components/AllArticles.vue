@@ -42,7 +42,7 @@
                                     </div>
                                     
                                     <div v-if="article.article_image">
-                                        <img :src="imgName(article.article_image)" width="20%" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
+                                        <img :src="imgName(article.article_image)" width="250px" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="" >
                                     </div>
 
                                 </div>
@@ -96,7 +96,9 @@ export default {
             this.$router.push({name:'oneArticle', params:{id:articleId}});
         },
         loadArticles: function() {
-            axios.get('http://localhost:3000/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+            console.log(process.env.VUE_APP_API_BACKEND_URL);
+            console.log('hello');
+            axios.get(process.env.VUE_APP_API_BACKEND_URL+'/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then(reponse => {
             this.allArticles = reponse.data.allArticles
         })
@@ -105,10 +107,10 @@ export default {
         })
         },
         imgName(filename){
-            return `http://localhost:3000/images/${filename}`;
+            return `${process.env.VUE_APP_API_BACKEND_URL}/images/${filename}`;
         },
         deleteArticle(id, index) {
-            axios.delete('http://localhost:3000/api/articles/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+            axios.delete(process.env.VUE_APP_API_BACKEND_URL+'/api/articles/'+id, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
             .then(() => {
                 console.log('article supprimé');
                 this.allArticles.splice(index, 1)
@@ -118,7 +120,7 @@ export default {
             })
         },
          modifyArticle(id, article) {
-             axios.put('http://localhost:3000/api/articles/'+id, article, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
+             axios.put(process.env.VUE_APP_API_BACKEND_URL+'/api/articles/'+id, article, {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
              .then(() => {
                  console.log('article modifié');
                  this.idArticleUpdate = null

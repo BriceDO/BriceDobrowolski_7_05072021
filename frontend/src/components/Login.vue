@@ -42,7 +42,7 @@
         },
         methods: {
             sendForm(){
-                axios.post('http://localhost:3000/api/auth/login', this.user)
+                axios.post(process.env.VUE_APP_API_BACKEND_URL+'/api/auth/login', this.user)
                 .then((res) => {
                     localStorage.setItem('token', res.data.token)
                     localStorage.setItem('userPrenom', res.data.prenom)
