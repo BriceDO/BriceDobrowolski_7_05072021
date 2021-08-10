@@ -28,7 +28,7 @@
                 <p v-if="errorSignup" class="mt-2 text-danger"> Création de compte impossible, veuillez réessayer. </p>
                 <p class="text-right mt-3">
                     Déjà inscrit ?
-                    <router-link  :to="{name: 'login'}">Se connecter</router-link>
+                    <router-link class="createAccount"  :to="{name: 'login'}">Se connecter</router-link>
                 </p>
             </form>
         </div>
@@ -57,6 +57,7 @@
                 .then(() => {
                     console.log("Le compte a été créé !")
                     this.$router.push('signup/success');
+                    this.errorSignup = false
                 })
                 .catch((error) =>{
                     console.log(error.message);

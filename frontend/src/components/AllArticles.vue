@@ -96,8 +96,6 @@ export default {
             this.$router.push({name:'oneArticle', params:{id:articleId}});
         },
         loadArticles: function() {
-            console.log(process.env.VUE_APP_API_BACKEND_URL);
-            console.log('hello');
             axios.get(process.env.VUE_APP_API_BACKEND_URL+'/api/articles', {headers : {Authorization: 'Bearer ' + localStorage.getItem('token')}})
         .then(reponse => {
             this.allArticles = reponse.data.allArticles

@@ -12,12 +12,6 @@ export default [
   },
 
   {
-    path: '/auth',
-    name: 'login',
-    component: Login,
-  },
-
-  {
     path: '/signup',
     name: 'signup',
     component: Signup

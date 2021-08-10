@@ -12,7 +12,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
-                                        <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="user_icon">
+                                        <img class="rounded-circle" width="45" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" alt="user_icon">
                                     </div>
                                     <div>
                                         <div class="ms-2">{{oneArticle.prenom}} {{oneArticle.nom}}</div>
@@ -39,15 +39,16 @@
                     <div class="d-flex justify-content-center row">
                         <div class="col-md-10">
                             <div class="d-flex flex-row align-items-center add-comment p-2 bg-white rounded">
-                                <img class="rounded-circle" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" width="40">
+                                <img class="rounded-circle" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" width="40" alt="user_icon">
                                 <input @keyup.enter="sendComment()" v-model="commentInput.commentaire_contenu" type="text" class="form-control ms-1" placeholder="Votre commentaire..." required>
                                <button v-on:click="sendComment()" class="btn btn-success ms-2"> <b-icon  type="button"  icon="arrow-return-right"></b-icon> </button> 
                             </div>
+                            <small v-if="errorComment" class="form-text text-danger mb-3">Votre commentaire est vide</small>
 
                             <!-- Comments -->
                             <div v-bind:key="index" v-for="(commentaire, index) in allComments" class="p-3 bg-white mt-2 rounded">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex flex-row"><img class="rounded-circle me-2" alt="post_picture" src="https://picsum.photos/50/50" width="45">
+                                    <div class="d-flex flex-row"><img class="rounded-circle me-2" alt="post_picture" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" width="45">
                                         <div class="d-flex flex-column ml-2 ">
                                             <span class="ms-1">{{ commentaire.prenom }} {{ commentaire.nom }}</span>
                                             <small class="ms-1"> <i class="fa fa-clock-o"></i> {{commentaire.date_creation | filterFormatDate}} </small>
@@ -78,7 +79,7 @@ export default {
     data() {
         return {
             commentInput:{
-                commentaire_contenu: '',
+                commentaire_contenu: null,
                 id_utilisateur: localStorage.getItem('userId'),
                 id_article: this.articleId
             },
@@ -89,7 +90,7 @@ export default {
             userNom: localStorage.getItem('userNom'),
             userPhoto: localStorage.getItem('userPhoto'),
             userId: localStorage.getItem('userId'),
-            placeholder: false
+            errorComment: false
         }   
     },
     created(){
@@ -133,9 +134,11 @@ export default {
                 this.loadComments();
                 this.loadArticle();
                 this.commentInput.commentaire_contenu = null;
+                this.errorComment = false
             })
             .catch((error) => {
                 console.log(error.message);
+                this.errorComment = true
             })
         },
         imgName(filename){

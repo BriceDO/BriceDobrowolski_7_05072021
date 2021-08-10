@@ -64,6 +64,10 @@ h5:hover{
   cursor: pointer;
 }
 
+.createAccount:hover{
+  font-weight: bold !important;
+} 
+
 @media screen and (max-width: 640px) {
   .logo_header {
     width: 200px;

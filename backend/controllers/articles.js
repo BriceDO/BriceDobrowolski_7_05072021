@@ -6,8 +6,6 @@ const CommentService = require ('../service/commentService')
 // ARTICLES
 
 exports.createArticle = (req, res, next) => {
-
-    console.log(req.file);
     
     const article = {
         titre : req.body.titre,
