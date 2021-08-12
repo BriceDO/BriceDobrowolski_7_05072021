@@ -79,3 +79,12 @@ h5:hover{
     width: 140px;
   }
 }
+
+@media screen and (max-width: 321px) {
+  .logo_header {
+    width: 105px;
+  }
+  .createAcc {
+    margin-bottom: 100px;
+  }
+}

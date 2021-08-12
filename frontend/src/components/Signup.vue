@@ -26,7 +26,7 @@
 
                 <button v-on:click.prevent="sendForm" type="submit" class="submit btn btn-info btn-lg btn-block mt-3">S'inscrire</button>
                 <p v-if="errorSignup" class="mt-2 text-danger"> Création de compte impossible, veuillez réessayer. </p>
-                <p class="text-right mt-3">
+                <p class="createAcc text-right mt-3">
                     Déjà inscrit ?
                     <router-link class="createAccount"  :to="{name: 'login'}">Se connecter</router-link>
                 </p>
