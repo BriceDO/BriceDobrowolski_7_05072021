@@ -28,7 +28,7 @@
                                     <!-- Lecture -->
                                     <div v-if="idArticleUpdate != article.id">
                                         <a class="card-link"  >
-                                            <h5 v-on:click="goToOneArticle(article.id)" class="card-title mt-2">{{ article.titre }}</h5>
+                                            <h5 v-on:click="goToOneArticle(article.id)" tabindex="0" class="card-title mt-2">{{ article.titre }}</h5>
                                         </a>
                                         <p class="card-text">{{ article.article_contenu }}</p>
                                     </div>

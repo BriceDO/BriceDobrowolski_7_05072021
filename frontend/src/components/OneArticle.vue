@@ -171,4 +171,9 @@ export default {
     h5 {
         cursor: initial;
     }
+
+    .card-title:hover {
+        text-decoration: none;
+        cursor: inherit;
+    }
 </style>
