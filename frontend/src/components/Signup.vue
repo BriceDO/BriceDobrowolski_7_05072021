@@ -43,10 +43,10 @@
         data() {
             return {
                 user:{
-                    nom:'',
-                    prenom: '',
-                    email:'',
-                    password:''
+                    nom: null,
+                    prenom: null,
+                    email: null,
+                    password: null
                 },
                 errorSignup: false,
             }   
