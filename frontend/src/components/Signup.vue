@@ -43,16 +43,22 @@
         data() {
             return {
                 user:{
-                    nom:'',
+                    nom: '',
                     prenom: '',
-                    email:'',
-                    password:''
+                    email: null,
+                    password: null
                 },
                 errorSignup: false,
             }   
         },
         methods: {
             sendForm(){
+
+                if (this.user.nom == '' || this.user.prenom == '') {
+                    this.errorSignup = true
+                    return
+                } else {
+
                 axios.post(process.env.VUE_APP_API_BACKEND_URL+'/api/auth/signup', this.user)
                 .then(() => {
                     console.log("Le compte a été créé !")
@@ -63,7 +69,7 @@
                     console.log(error.message);
                     this.errorSignup = true
                 })
-            },
+            }},
         }
     }
 </script>
