@@ -54,7 +54,7 @@
         methods: {
             sendForm(){
 
-                if (this.user.nom == '' || this.user.prenom == '') {
+                if (this.user.nom == '' || this.user.prenom == '' || this.user.email == '') {
                     this.errorSignup = true
                     return
                 } else {

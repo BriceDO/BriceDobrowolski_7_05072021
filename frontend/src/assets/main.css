@@ -87,4 +87,7 @@ h5:hover{
   .createAcc {
     margin-bottom: 100px;
   }
+  .iconUser {
+    width: 25px;
+  }
 }

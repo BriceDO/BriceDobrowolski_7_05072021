@@ -5,7 +5,7 @@
             <div class="tab-content" id="myTabContent">
                     <div class="form-group">
                         <div>
-                            <img class="rounded-circle mb-2 me-2" width="60" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" alt="">
+                            <img class="iconUser rounded-circle mb-2 me-2" width="60" src="https://media.istockphoto.com/photos/businessman-silhouette-as-avatar-or-default-profile-picture-picture-id476085198?s=612x612" alt="">
                             <span>Bonjour <b> {{userPrenom}} </b>! Quoi de neuf ?</span> 
                         </div>
                         <input v-model="article.titre" type="text" class="form-control mb-2" id="titre" minlength="3" maxlength="45" rows="1" placeholder="Le titre (obligatoire)" required>
